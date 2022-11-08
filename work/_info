@@ -1,0 +1,30 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/xiadong/Desktop/my86_pipe
+vexu_decode
+!s110 1667911052
+!i10b 1
+!s100 b0TbN[@FBH`VOkfVG;D;A2
+I;SaQ7?Tn>bBaEY<QfFKh_1
+VDg1SIo80bB@j0V0VzS_@n1
+dC:/Users/xiadong/Desktop/riscx
+w1667910896
+8C:/Users/xiadong/Desktop/riscx/rtl/exu_decode.v
+FC:/Users/xiadong/Desktop/riscx/rtl/exu_decode.v
+L0 1
+OL;L;10.4;61
+r1
+!s85 0
+31
+!s108 1667911052.404000
+!s107 C:/Users/xiadong/Desktop/riscx/rtl/exu_decode.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|C:/Users/xiadong/Desktop/riscx/rtl/exu_decode.v|
+!i113 0
+o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
