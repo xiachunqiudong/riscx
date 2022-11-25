@@ -2,7 +2,7 @@
 
 
 
-## 总线设计
+## 一.总线设计
 
 ### ICB总线设计
 
@@ -34,3 +34,35 @@
 | 反馈通道 | input  | DW   | icb_rsp_rdata | 读反馈数据                              |
 | 反馈通道 | input  | 1    | icb_rsp_err   | 读反馈错误                              |
 |          |        |      |               |                                         |
+
+## 二.取指
+
+- 将指令从内存中取出
+
+- 简单译码
+- 分支预测
+- 暂时不考虑压缩指令
+
+### 简单译码
+
+普通指令或者是分支/跳转指令
+
+- 分支指令: JXX
+
+    pc_next = pc + imm
+
+- 跳转指令: JAL && JALR
+
+    JAL: pc_next = pc + imm
+
+    JALR: pc_next = rs1 + imm
+
+### 分支预测
+
+- BXX指令：采用静态分支预测，向后跳转预测为跳，向前跳转预测为不跳
+- JAL：PC + OFFSET
+- JALR： RS1 + OFFSET
+
+### PC生成
+
+### 取指令
