@@ -14,17 +14,32 @@ module instr_fetch(
     // PC REG
     input  [`PC_WIDTH-1:0]    pc_i,
     output [`PC_WIDTH-1:0]    if_pc_next_o,
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+// 根据PC取指令
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+
+    // REQ CHANNEL
+    output                  if_req_valid_o,
+    input                   if_req_ready_i,
+    output [`PC_WIDTH-1:0]  if_req_pc_o,
+    // RESP CHANNEL
+    input if_resp_valid_i,
+    output if_resp_ready_o,
+    input if_resp_err_i,
+    input [`INSTR_WIDTH-1:0] if_resp_instr_i,
+
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+// TO IF_ID_REG
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
     
-    // IF_ID REG
     output [`INSTR_WIDTH-1:0] if_instr_o,
     output [`PC_WIDTH-1:0]    if_pc_o
 );
 
-    reg [`INSTR_WIDTH-1:0] instr;
+    wire [`INSTR_WIDTH-1:0] instr = if_resp_instr_i;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-// 部分译码
-// 用于分支预测          
+// 部分译码        
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
     
     wire dec_bjp;
