@@ -10,11 +10,11 @@ module fetch_mini_dec(
     output [`XLEN-1:0]          dec_bjp_imm_o
 );
 
-    wire opcode = instr_i[6:0];
+    wire [6:0] opcode = instr_i[6:0];
    
-    assign dec_bxx_o  = (opcode == 1100011);
-    assign dec_jal_o  = (opcode == 1101111);
-    assign dec_jalr_o = (opcode == 1100111);
+    assign dec_bxx_o  = (opcode == 7'b1100011);
+    assign dec_jal_o  = (opcode == 7'b1101111);
+    assign dec_jalr_o = (opcode == 7'b1100111);
     
     assign dec_bjp_o = dec_bxx_o | dec_jal_o | dec_jal_o;
 
@@ -22,9 +22,9 @@ module fetch_mini_dec(
 
     // imm 符号扩展到XLEN位
     // bxx和jal需要将立即数左移一位
-    wire [`XLEN-1:0] bjp_imm_bxx  = { {19{instr_i[31]}}, instr_i[31],    instr_i[7],  instr_i[30:25], instr_i[11:8], 1'b0 };
-    wire [`XLEN-1:0] bjp_imm_jal  = { {11{instr_i[31]}}, instr_i[19:12], instr_i[20], instr_i[30:21], 1'b0};
-    wire [`XLEN-1:0] bjp_imm_jalr = { {20{instr_i[31]}}, instr[31:20]};
+    wire [`XLEN-1:0] bjp_imm_bxx  = { {19{instr_i[31]}}, instr_i[31], instr_i[7],     instr_i[30:25], instr_i[11:8],  1'b0 };
+    wire [`XLEN-1:0] bjp_imm_jal  = { {11{instr_i[31]}}, instr_i[31],   instr_i[19:12], instr_i[20],    instr_i[30:21], 1'b0};
+    wire [`XLEN-1:0] bjp_imm_jalr = { {20{instr_i[31]}}, instr_i[31:20]};
 
     // 并行多路选择器
     assign dec_bjp_imm_o = ({`XLEN{dec_bxx_o}}  & bjp_imm_bxx) 
