@@ -22,10 +22,10 @@ module decode(
     output reg                      dec_rd_en_o,  // 是否写rd
 
     // to ALU UNIT
-    output [`PC_WIDTH-1:0] dec_pc_o,
-    output reg [`XLEN-1:0] dec_alu_op1,
-    output reg [`XLEN-1:0] dec_alu_op2,
-    output reg [3:0]       dec_alu_fun
+    output     [`PC_WIDTH-1:0] dec_pc_o,
+    output reg [`XLEN-1:0]     dec_alu_op1_o,
+    output reg [`XLEN-1:0]     dec_alu_op2_o,
+    output reg [3:0]           dec_alu_fun_o
     
     
 
@@ -113,13 +113,70 @@ module decode(
     always @(*) begin
         case(opcode)
             `INSTR_I_TYPE: begin
-                
+                dec_alu_op1_o = dec_rs1_i;
+                dec_alu_op2_o = dec_imm_o;
+                case(fun3)
+                    3'b000: begin // ADDI
+                        dec_alu_fun_o = `ALU_FUN_ADD;
+                    end
+                    3'b001: begin // SLLI
+                        dec_alu_fun_o = `ALU_FUN_SLL;
+                    end
+                    3'b010: begin // SLTI
+                        dec_alu_fun_o = `ALU_FUN_SUB;
+                    end
+                    3'b011: begin // SLTIU
+                        dec_alu_fun_o = `ALU_FUN_SUB;
+                    end
+                    3'b100: begin // XORI
+                        dec_alu_fun_o = `ALU_FUN_XOR;
+                    end
+                    3'b101: begin // SRLI or SRAI
+                        dec_alu_fun_o = dec_imm_o[10] ? `ALU_FUN_SRA : `ALU_FUN_SRL;
+                    end
+                    3'b110: begin // ORI
+                        dec_alu_fun_o = `ALU_FUN_OR;
+                    end
+                    3'b111: begin // ANDI
+                        dec_alu_fun_o = `ALU_FUN_AND;
+                    end
+                    default: begin
+                        dec_alu_fun_o = `ALU_FUN_ADD;
+                    end
+                endcase
             end
             `INSTR_R_TYPE: begin
-                dec_rs1_en_o = 1'b1;
-                dec_rs2_en_o = 1'b1;
-                dec_rd_en_o  = 1'b1;
-                dec_imm_o = `XLEN'b0;               
+                dec_alu_op1_o = dec_rs1_i;
+                dec_alu_op2_o = dec_rs2_i;
+                case(fun3)
+                    3'b000: begin // ADD
+                        dec_alu_fun_o = fun7[5] ? `ALU_FUN_SUB : `ALU_FUN_ADD;
+                    end
+                    3'b001: begin // SLL
+                        dec_alu_fun_o = `ALU_FUN_SLL;
+                    end
+                    3'b010: begin // SLT
+                        dec_alu_fun_o = `ALU_FUN_SUB;
+                    end
+                    3'b011: begin // SLTU
+                        dec_alu_fun_o = `ALU_FUN_SUB;
+                    end
+                    3'b100: begin // XOR
+                        dec_alu_fun_o = `ALU_FUN_XOR;
+                    end
+                    3'b101: begin // SRL or SRA
+                        dec_alu_fun_o = fun7[5] ? `ALU_FUN_SRA : `ALU_FUN_SRL;
+                    end
+                    3'b110: begin // OR
+                        dec_alu_fun_o = `ALU_FUN_OR;
+                    end
+                    3'b111: begin // AND
+                        dec_alu_fun_o = `ALU_FUN_AND;
+                    end
+                    default: begin
+                        dec_alu_fun_o = `ALU_FUN_ADD;
+                    end
+                endcase           
             end
             `INSTR_SB_TYPE: begin
                 dec_rs1_en_o = 1'b0;

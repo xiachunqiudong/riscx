@@ -25,4 +25,11 @@
 `define INSTR_AUIPC  7'b00_101_11
 
 // ALU FUN
-`define ALU_FUN_ADD
+`define ALU_FUN_ADD 4'b
+`define ALU_FUN_SUB
+`define ALU_FUN_SLL 
+`define ALU_FUN_SRL 
+`define ALU_FUN_SRA 
+`define ALU_FUN_OR 
+`define ALU_FUN_XOR
+`define ALU_FUN_AND 
