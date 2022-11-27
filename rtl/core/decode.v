@@ -11,7 +11,7 @@ module decode(
     output                      dec_rs1_en_o, // 是否读rs1
     output                      dec_rs2_en_o, // 是否读rs2
     output                      dec_rd_en_o,  // 是否写rd
-    output [`XLEN-1:o]          dec_imm_o,
+    output [`XLEN-1:0]          dec_imm_o,
     
     input [`XLEN-1:0]           dec_rs1_i,
     input [`XLEN-1:0]           dec_rs2_i
