@@ -127,8 +127,17 @@
   - 分支指令
 
     rs1 op rs2
+    
+  - LUI
+
+    rd = 0 +imm;
+
+  - AUIPC
+
+    rd = pc + imm;
 
   对于ALU来说op1始终为rs1，而op2可能为imm
 
 - MUL
+
 - DIV

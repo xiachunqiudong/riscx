@@ -52,7 +52,7 @@ module decode(
 
     reg [`XLEN-1:0]          dec_imm_o,
 
-    // 操作数解析
+    // rs1 rs2 rd 读写使能 && imm解析
     always @(*) begin
         case(opcode)
             `INSTR_I_TYPE: begin
@@ -68,15 +68,15 @@ module decode(
                 dec_imm_o = `XLEN'b0;               
             end
             `INSTR_SB_TYPE: begin
-                dec_rs1_en_o = 1'b0;
-                dec_rs2_en_o = 1'b0;
-                dec_rd_en_o  = 1'b1;
-                dec_imm_o = { {19{instr_i[31]}}, instr_i[31], instr_i[7], instr_i[30:25], instr_i[11:8], 1'b0 };
-            end
-            `INSTR_JAL: begin
                 dec_rs1_en_o = 1'b1;
                 dec_rs2_en_o = 1'b1;
                 dec_rd_en_o  = 1'b0;
+                dec_imm_o = { {19{instr_i[31]}}, instr_i[31], instr_i[7], instr_i[30:25], instr_i[11:8], 1'b0 };
+            end
+            `INSTR_JAL: begin
+                dec_rs1_en_o = 1'b0;
+                dec_rs2_en_o = 1'b0;
+                dec_rd_en_o  = 1'b1;
                 dec_imm_o = { {11{instr_i[31]}}, instr_i[31],   instr_i[19:12], instr_i[20],    instr_i[30:21], 1'b0};
             end
             `INSTR_JALR: begin
@@ -108,6 +108,7 @@ module decode(
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 //  ALU_FUN 解析
+//  ALU_OP  解析
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 
     always @(*) begin
@@ -126,7 +127,7 @@ module decode(
                         dec_alu_fun_o = `ALU_FUN_SUB;
                     end
                     3'b011: begin // SLTIU
-                        dec_alu_fun_o = `ALU_FUN_SUB;
+                        dec_alu_fun_o = `ALU_FUN_SUB_U;
                     end
                     3'b100: begin // XORI
                         dec_alu_fun_o = `ALU_FUN_XOR;
@@ -159,7 +160,7 @@ module decode(
                         dec_alu_fun_o = `ALU_FUN_SUB;
                     end
                     3'b011: begin // SLTU
-                        dec_alu_fun_o = `ALU_FUN_SUB;
+                        dec_alu_fun_o = `ALU_FUN_SUB_U;
                     end
                     3'b100: begin // XOR
                         dec_alu_fun_o = `ALU_FUN_XOR;
@@ -173,46 +174,59 @@ module decode(
                     3'b111: begin // AND
                         dec_alu_fun_o = `ALU_FUN_AND;
                     end
-                    default: begin
+                    default: begin 
                         dec_alu_fun_o = `ALU_FUN_ADD;
                     end
                 endcase           
             end
             `INSTR_SB_TYPE: begin
-                dec_rs1_en_o = 1'b0;
-                dec_rs2_en_o = 1'b0;
-                dec_rd_en_o  = 1'b1;
-                dec_imm_o = { {19{instr_i[31]}}, instr_i[31], instr_i[7], instr_i[30:25], instr_i[11:8], 1'b0 };
+                dec_alu_op1_o = dec_rs1_i;
+                dec_alu_op2_o = dec_rs2_i;
+                case(fun3)
+                3'b000: begin // BEQ
+                    dec_alu_fun_o = `ALU_FUN_XOR;
+                end
+                3'b001: begin // BNE
+                    dec_alu_fun_o = `ALU_FUN_XOR;
+                end
+                3'b100: begin // BLT
+                    dec_alu_fun_o = `ALU_FUN_SUB;
+                end
+                3'b101: begin // BGE
+                    dec_alu_fun_o = `ALU_FUN_SUB;
+                end
+                3'b110: begin
+                    dec_alu_fun_o = `ALU_FUN_SUB_U;
+                end
+                3'b111: begin
+                    dec_alu_fun_o = `ALU_FUN_SUB_U;
+                end
+                endcase
             end
-            `INSTR_JAL: begin
-                dec_rs1_en_o = 1'b1;
-                dec_rs2_en_o = 1'b1;
-                dec_rd_en_o  = 1'b0;
-                dec_imm_o = { {11{instr_i[31]}}, instr_i[31],   instr_i[19:12], instr_i[20],    instr_i[30:21], 1'b0};
+            `INSTR_JAL: begin // 取指阶段就需要知道
+                dec_alu_op1_o = pc_i;
+                dec_alu_op2_o = dec_imm_o;
+                dec_alu_fun_o = `ALU_FUN_ADD;
             end
-            `INSTR_JALR: begin
-                dec_rs1_en_o = 1'b1;
-                dec_rs2_en_o = 1'b0;
-                dec_rd_en_o  = 1'b1;
-                dec_imm_o = { {20{instr_i[31]}}, instr_i[31:20] };
+            `INSTR_JALR: begin // 取指阶段就需要知道
+                dec_alu_op1_o = dec_rs1_i;
+                dec_alu_op2_o = dec_imm_o;
+                dec_alu_fun_o = `ALU_FUN_ADD;
             end
             `INSTR_LUI: begin
-                dec_rs1_en_o = 1'b0;
-                dec_rs2_en_o = 1'b0;
-                dec_rd_en_o  = 1'b1;
-                dec_imm_o = { instr_i[31:12], 12'b0 };
+                dec_alu_op1_o = `XLEN'b0;
+                dec_alu_op2_o = dec_imm_o;
+                dec_alu_fun_o = `ALU_FUN_ADD;
             end
             `INSTR_AUIPC: begin
-                dec_rs1_en_o = 1'b0;
-                dec_rs2_en_o = 1'b0;
-                dec_rd_en_o  = 1'b1;
-                dec_imm_o = { instr_i[31:12], 12'b0 };
+                dec_alu_op1_o = pc_i;
+                dec_alu_op2_o = dec_imm_o;
+                dec_alu_fun_o = `ALU_FUN_ADD;
             end
             default: begin
-                dec_rs1_en_o = 1'b0;
-                dec_rs2_en_o = 1'b0;
-                dec_rd_en_o  = 1'b0;
-                dec_imm_o = `XLEN'b0;  
+                dec_alu_op1_o = `XLEN'b0;
+                dec_alu_op2_o = `XLEN'b0;
+                dec_alu_fun_o = `ALU_FUN_ADD;
             end
         endcase
     end
