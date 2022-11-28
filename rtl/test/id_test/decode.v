@@ -25,9 +25,10 @@ module decode(
     output     [`PC_WIDTH-1:0] dec_pc_o,
     output reg [`XLEN-1:0]     dec_alu_op1_o,
     output reg [`XLEN-1:0]     dec_alu_op2_o,
-    output reg [3:0]           dec_alu_fun_o
-    
-    
+    output reg [3:0]           dec_alu_fun_o,
+    // to MEM UNIT
+    output reg                 dec_alu_mem_rena, // 读使能
+    output reg                 dec_alu_mem_wena  // 写使能
 
 );
 
@@ -230,6 +231,5 @@ module decode(
             end
         endcase
     end
-
 
 endmodule
