@@ -1,18 +1,7 @@
+include rule.mk
 
-obj = riscx
-VFLAGS = --trace --cc --exe --build
+obj = regfile
 
-all:
-	verilator ${VFLAGS} ${obj}_main.cpp ${obj}.v
-	./obj_dir/V${obj}
-	gtkwave wave.vcd
+	
 
-.PHONY : push
-push:
-	git add .
-	git commit -m "$(shell date)"
-	git push
 
-.PHONY : clean
-clean:
-	rm -rf ./obj_dir *.vcd

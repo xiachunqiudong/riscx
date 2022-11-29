@@ -7,27 +7,27 @@
 
 module regfile
 #(
-    parameter reg_num = 32;
+    parameter reg_num = 32
 )
 (
 
-    input clk,
-    input rst_n,
+    input                      clk,
+    input                      rst_n,
 
     // from write back
-    input                    rd_en_i,
-    input [`REG_IDX_WIDTH:0] rd_idx_i,
-    input [`XLEN-1:0]        rd_wdata_i,
+    input                      rd_en_i,
+    input [`REG_IDX_WIDTH:0]   rd_idx_i,
+    input [`XLEN-1:0]          rd_wdata_i,
     
     // from decode 
     input [`REG_IDX_WIDTH-1:0] rs1_idx_i,
     input [`REG_IDX_WIDTH-1:0] rs2_idx_i,
     // to decode
-    output [`XLEN-1:0]         rs1_rdata_o,
-    output [`XLEN-1:0]         rs2_rdata_o,
+    output reg [`XLEN-1:0]     rs1_rdata_o,
+    output reg [`XLEN-1:0]     rs2_rdata_o,
 
     // to fetch 
-    output [`XLEN-1:0]         rs1_x1_rdata_o
+    output reg [`XLEN-1:0]     rs1_x1_rdata_o
 );
 
     // REG FILE
@@ -40,7 +40,7 @@ module regfile
             for(i = 0; i < reg_num; i++) begin
                 reg_data[rd_idx_i] <= `XLEN'b0;
             end
-        end else if(rd_en_i) begin
+        end else if(rd_en_i & rd_idx_i != `REG_IDX_WIDTH'b0) begin
             reg_data[rd_idx_i] <= rd_wdata_i;
         end
     end
