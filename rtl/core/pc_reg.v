@@ -18,7 +18,6 @@ module pc_reg(
         else
             pc_r <= pc_next_i;
     end
-
     assign pc_o = pc_r;
 
 endmodule

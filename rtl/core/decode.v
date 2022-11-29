@@ -15,7 +15,7 @@ module decode(
 
     // from REG FILE
     input [`XLEN-1:0]               dec_rs1_i,
-    input [`XLEN-1:0]               dec_rs2_i
+    input [`XLEN-1:0]               dec_rs2_i,
     
     // to ID_EX
     output reg [`REG_IDX_WIDTH-1:0] dec_rd_idx_o,

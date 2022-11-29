@@ -18,3 +18,5 @@
 `define INSTR_JALR   7'b11_001_11
 `define INSTR_LUI    7'b01_101_11
 `define INSTR_AUIPC  7'b00_101_11
+
+
