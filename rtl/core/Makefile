@@ -13,11 +13,6 @@ push:
 	git commit -m "$(shell date)"
 	git push
 
-.PHONY : time
-time:
-	@echo 
-
-
 .PHONY : clean
 clean:
 	rm -rf ./obj_dir *.vcd
