@@ -37,18 +37,18 @@ void Vriscx___024root__traceChgSub0(Vriscx___024root* vlSelf, VerilatedVcd* trac
                                         & (IData)(vlSelf->riscx__DOT__ifu__DOT__prdt_taken))
                                         ? ((0x67U == 
                                             (0x7fU 
-                                             & vlSelf->riscx__DOT__ifu__DOT__instr))
+                                             & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))
                                             ? ((0U 
                                                 == 
                                                 (0x1fU 
-                                                 & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                 & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                     >> 0xfU)))
                                                 ? 0U
                                                 : (
                                                    (1U 
                                                     == 
                                                     (0x1fU 
-                                                     & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                     & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                         >> 0xfU)))
                                                     ? 1U
                                                     : 2U))
@@ -60,15 +60,15 @@ void Vriscx___024root__traceChgSub0(Vriscx___024root* vlSelf, VerilatedVcd* trac
                                           : 4U))),32);
             tracep->chgIData(oldp+5,(vlSelf->riscx__DOT__pru__DOT__pc_r),32);
             tracep->chgIData(oldp+6,(((0x67U == (0x7fU 
-                                                 & vlSelf->riscx__DOT__ifu__DOT__instr))
+                                                 & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))
                                        ? ((0U == (0x1fU 
-                                                  & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                  & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                      >> 0xfU)))
                                            ? 0U : (
                                                    (1U 
                                                     == 
                                                     (0x1fU 
-                                                     & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                     & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                         >> 0xfU)))
                                                     ? 1U
                                                     : 2U))
@@ -76,16 +76,16 @@ void Vriscx___024root__traceChgSub0(Vriscx___024root* vlSelf, VerilatedVcd* trac
             tracep->chgIData(oldp+7,((((IData)(vlSelf->riscx__DOT__ifu__DOT__dec_bjp) 
                                        & (IData)(vlSelf->riscx__DOT__ifu__DOT__prdt_taken))
                                        ? ((0x67U == 
-                                           (0x7fU & vlSelf->riscx__DOT__ifu__DOT__instr))
+                                           (0x7fU & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))
                                            ? ((0U == 
                                                (0x1fU 
-                                                & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                    >> 0xfU)))
                                                ? 0U
                                                : ((1U 
                                                    == 
                                                    (0x1fU 
-                                                    & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                    & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                        >> 0xfU)))
                                                    ? 1U
                                                    : 2U))

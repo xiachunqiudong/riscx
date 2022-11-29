@@ -10,8 +10,12 @@ all:
 .PHONY : push
 push:
 	git add .
-	git commit -m "2022/11/29"
+	git commit -m "$(shell date)"
 	git push
+
+.PHONY : time
+time:
+	@echo 
 
 
 .PHONY : clean

@@ -32,80 +32,80 @@ void Vriscx___024root___settle__TOP__2(Vriscx___024root* vlSelf) {
     // Body
     vlSelf->riscx__DOT__ifu__DOT__dec_bjp = (((0x63U 
                                                == (0x7fU 
-                                                   & vlSelf->riscx__DOT__ifu__DOT__instr)) 
+                                                   & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i)) 
                                               | (0x6fU 
                                                  == 
                                                  (0x7fU 
-                                                  & vlSelf->riscx__DOT__ifu__DOT__instr))) 
+                                                  & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))) 
                                              | (0x6fU 
                                                 == 
                                                 (0x7fU 
-                                                 & vlSelf->riscx__DOT__ifu__DOT__instr)));
+                                                 & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i)));
     vlSelf->riscx__DOT__ifu__DOT__dec_bjp_imm = (((
                                                    (- (IData)(
                                                               (0x63U 
                                                                == 
                                                                (0x7fU 
-                                                                & vlSelf->riscx__DOT__ifu__DOT__instr)))) 
+                                                                & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i)))) 
                                                    & (((- (IData)(
-                                                                  (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                                  (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                    >> 0x1fU))) 
                                                        << 0xdU) 
                                                       | ((0x1000U 
-                                                          & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                          & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                              >> 0x13U)) 
                                                          | ((0x800U 
-                                                             & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                             & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                 << 4U)) 
                                                             | ((0x7e0U 
-                                                                & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                                & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                    >> 0x14U)) 
                                                                | (0x1eU 
-                                                                  & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                                  & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                      >> 7U))))))) 
                                                   | ((- (IData)(
                                                                 (0x6fU 
                                                                  == 
                                                                  (0x7fU 
-                                                                  & vlSelf->riscx__DOT__ifu__DOT__instr)))) 
+                                                                  & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i)))) 
                                                      & (((- (IData)(
-                                                                    (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                                    (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                      >> 0x1fU))) 
                                                          << 0x15U) 
                                                         | ((0x100000U 
-                                                            & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                            & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                >> 0xbU)) 
                                                            | ((0xff000U 
-                                                               & vlSelf->riscx__DOT__ifu__DOT__instr) 
+                                                               & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i) 
                                                               | ((0x800U 
-                                                                  & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                                  & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                      >> 9U)) 
                                                                  | (0x7feU 
-                                                                    & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                                    & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                        >> 0x14U)))))))) 
                                                  | ((- (IData)(
                                                                (0x67U 
                                                                 == 
                                                                 (0x7fU 
-                                                                 & vlSelf->riscx__DOT__ifu__DOT__instr)))) 
+                                                                 & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i)))) 
                                                     & (((- (IData)(
-                                                                   (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                                   (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                                     >> 0x1fU))) 
                                                         << 0xcU) 
-                                                       | (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                       | (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                           >> 0x14U))));
     vlSelf->riscx__DOT__ifu__DOT__prdt_taken = (((0x6fU 
                                                   == 
                                                   (0x7fU 
-                                                   & vlSelf->riscx__DOT__ifu__DOT__instr)) 
+                                                   & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i)) 
                                                  | (0x67U 
                                                     == 
                                                     (0x7fU 
-                                                     & vlSelf->riscx__DOT__ifu__DOT__instr))) 
+                                                     & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))) 
                                                 | ((0x63U 
                                                     == 
                                                     (0x7fU 
-                                                     & vlSelf->riscx__DOT__ifu__DOT__instr)) 
+                                                     & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i)) 
                                                    & (vlSelf->riscx__DOT__ifu__DOT__dec_bjp_imm 
                                                       >> 0x1fU)));
     vlSelf->riscx__DOT__ifu__DOT__pc_add_op1 = (((IData)(vlSelf->riscx__DOT__ifu__DOT__dec_bjp) 
@@ -114,19 +114,19 @@ void Vriscx___024root___settle__TOP__2(Vriscx___024root* vlSelf) {
                                                 ((0x67U 
                                                   == 
                                                   (0x7fU 
-                                                   & vlSelf->riscx__DOT__ifu__DOT__instr))
+                                                   & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))
                                                   ? 
                                                  ((0U 
                                                    == 
                                                    (0x1fU 
-                                                    & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                    & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                        >> 0xfU)))
                                                    ? 0U
                                                    : 
                                                   ((1U 
                                                     == 
                                                     (0x1fU 
-                                                     & (vlSelf->riscx__DOT__ifu__DOT__instr 
+                                                     & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
                                                         >> 0xfU)))
                                                     ? 1U
                                                     : 2U))
@@ -169,7 +169,13 @@ void Vriscx___024root___ctor_var_reset(Vriscx___024root* vlSelf) {
     vlSelf->riscx__DOT__if2if_id_reg_instr = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__if2if_id_reg_pc = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__pru__DOT__pc_r = VL_RAND_RESET_I(32);
-    vlSelf->riscx__DOT__ifu__DOT__instr = VL_RAND_RESET_I(32);
+    vlSelf->riscx__DOT__ifu__DOT__if_req_valid_o = VL_RAND_RESET_I(1);
+    vlSelf->riscx__DOT__ifu__DOT__if_req_ready_i = VL_RAND_RESET_I(1);
+    vlSelf->riscx__DOT__ifu__DOT__if_req_pc_o = VL_RAND_RESET_I(32);
+    vlSelf->riscx__DOT__ifu__DOT__if_resp_valid_i = VL_RAND_RESET_I(1);
+    vlSelf->riscx__DOT__ifu__DOT__if_resp_ready_o = VL_RAND_RESET_I(1);
+    vlSelf->riscx__DOT__ifu__DOT__if_resp_err_i = VL_RAND_RESET_I(1);
+    vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__ifu__DOT__dec_bjp = VL_RAND_RESET_I(1);
     vlSelf->riscx__DOT__ifu__DOT__dec_bjp_imm = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__ifu__DOT__prdt_taken = VL_RAND_RESET_I(1);

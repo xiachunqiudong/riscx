@@ -23,12 +23,18 @@ VL_MODULE(Vriscx___024root) {
     VL_IN8(rst_n,0,0);
 
     // LOCAL SIGNALS
+    CData/*0:0*/ riscx__DOT__ifu__DOT__if_req_valid_o;
+    CData/*0:0*/ riscx__DOT__ifu__DOT__if_req_ready_i;
+    CData/*0:0*/ riscx__DOT__ifu__DOT__if_resp_valid_i;
+    CData/*0:0*/ riscx__DOT__ifu__DOT__if_resp_ready_o;
+    CData/*0:0*/ riscx__DOT__ifu__DOT__if_resp_err_i;
     CData/*0:0*/ riscx__DOT__ifu__DOT__dec_bjp;
     CData/*0:0*/ riscx__DOT__ifu__DOT__prdt_taken;
     IData/*31:0*/ riscx__DOT__if2if_id_reg_instr;
     IData/*31:0*/ riscx__DOT__if2if_id_reg_pc;
     IData/*31:0*/ riscx__DOT__pru__DOT__pc_r;
-    IData/*31:0*/ riscx__DOT__ifu__DOT__instr;
+    IData/*31:0*/ riscx__DOT__ifu__DOT__if_req_pc_o;
+    IData/*31:0*/ riscx__DOT__ifu__DOT__if_resp_instr_i;
     IData/*31:0*/ riscx__DOT__ifu__DOT__dec_bjp_imm;
     IData/*31:0*/ riscx__DOT__ifu__DOT__pc_add_op1;
 
