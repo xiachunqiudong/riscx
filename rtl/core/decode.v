@@ -14,8 +14,8 @@ module decode(
     output reg                      dec_rs2_en_o, // 是否读rs2
 
     // from REG FILE
-    input [`XLEN-1:0]               dec_rs1_i,
-    input [`XLEN-1:0]               dec_rs2_i,
+    input [`XLEN-1:0]               rs1_rdata_i,
+    input [`XLEN-1:0]               rs2_rdata_i,
     
     // to ID_EX
     output reg [`REG_IDX_WIDTH-1:0] dec_rd_idx_o,
@@ -28,8 +28,8 @@ module decode(
     output reg [3:0]           dec_alu_fun_o,
     
     // to MEM UNIT
-    output reg                 dec_alu_mem_rena, // 读使能
-    output reg                 dec_alu_mem_wena  // 写使能
+    output reg                 dec_mem_rena, // 读使能
+    output reg                 dec_mem_wena  // 写使能
 
 );
 
@@ -49,10 +49,11 @@ module decode(
     assign dec_rd_idx_o  = rd;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-//  OPCODE 解析
+//  指令解析
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 
     reg [`XLEN-1:0]          dec_imm_o,
+    
     // 所有立即数都是符号扩展的
     // rs1 rs2 rd 读写使能 && imm解析
     always @(*) begin
@@ -127,7 +128,7 @@ module decode(
     always @(*) begin
         case(opcode)
             `INSTR_I_TYPE: begin
-                dec_alu_op1_o = dec_rs1_i;
+                dec_alu_op1_o = rs1_rdata_i;
                 dec_alu_op2_o = dec_imm_o;
                 case(fun3)
                     3'b000: begin // ADDI
@@ -160,8 +161,8 @@ module decode(
                 endcase
             end
             `INSTR_R_TYPE: begin
-                dec_alu_op1_o = dec_rs1_i;
-                dec_alu_op2_o = dec_rs2_i;
+                dec_alu_op1_o = rs1_rdata_i;
+                dec_alu_op2_o = rs2_rdata_i;
                 case(fun3)
                     3'b000: begin // ADD
                         dec_alu_fun_o = fun7[5] ? `ALU_FUN_SUB : `ALU_FUN_ADD;
@@ -193,8 +194,8 @@ module decode(
                 endcase           
             end
             `INSTR_SB_TYPE: begin
-                dec_alu_op1_o = dec_rs1_i;
-                dec_alu_op2_o = dec_rs2_i;
+                dec_alu_op1_o = rs1_rdata_i;
+                dec_alu_op2_o = rs2_rdata_i;
                 case(fun3)
                 3'b000: begin // BEQ
                     dec_alu_fun_o = `ALU_FUN_XOR;
@@ -222,7 +223,7 @@ module decode(
                 dec_alu_fun_o = `ALU_FUN_ADD;
             end
             `INSTR_JALR: begin // 取指阶段就需要知道
-                dec_alu_op1_o = dec_rs1_i;
+                dec_alu_op1_o = rs1_rdata_i;
                 dec_alu_op2_o = dec_imm_o;
                 dec_alu_fun_o = `ALU_FUN_ADD;
             end
