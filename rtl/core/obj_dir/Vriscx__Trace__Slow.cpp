@@ -22,79 +22,132 @@ void Vriscx___024root__traceInitSub0(Vriscx___024root* vlSelf, VerilatedVcd* tra
     if (false && tracep && c) {}  // Prevent unused
     // Body
     {
-        tracep->declBit(c+11,"clk", false,-1);
-        tracep->declBit(c+12,"rst_n", false,-1);
-        tracep->declBit(c+11,"riscx clk", false,-1);
-        tracep->declBit(c+12,"riscx rst_n", false,-1);
-        tracep->declBus(c+5,"riscx if_pc_next", false,-1, 31,0);
-        tracep->declBus(c+6,"riscx pr_pc", false,-1, 31,0);
-        tracep->declBus(c+6,"riscx if_pc", false,-1, 31,0);
-        tracep->declBus(c+13,"riscx if_instr", false,-1, 31,0);
-        tracep->declBus(c+7,"riscx if_id_pc", false,-1, 31,0);
-        tracep->declBus(c+8,"riscx if_id_instr", false,-1, 31,0);
-        tracep->declBit(c+11,"riscx pru clk", false,-1);
-        tracep->declBit(c+12,"riscx pru rst_n", false,-1);
-        tracep->declBit(c+14,"riscx pru stall_i", false,-1);
-        tracep->declBus(c+5,"riscx pru pc_next_i", false,-1, 31,0);
-        tracep->declBus(c+6,"riscx pru pc_o", false,-1, 31,0);
-        tracep->declBus(c+6,"riscx pru pc_r", false,-1, 31,0);
-        tracep->declBus(c+6,"riscx ifu pc_i", false,-1, 31,0);
-        tracep->declBus(c+5,"riscx ifu if_pc_next_o", false,-1, 31,0);
-        tracep->declBit(c+15,"riscx ifu if_req_valid_o", false,-1);
-        tracep->declBit(c+16,"riscx ifu if_req_ready_i", false,-1);
-        tracep->declBus(c+17,"riscx ifu if_req_pc_o", false,-1, 31,0);
-        tracep->declBit(c+18,"riscx ifu if_resp_valid_i", false,-1);
-        tracep->declBit(c+19,"riscx ifu if_resp_ready_o", false,-1);
-        tracep->declBit(c+20,"riscx ifu if_resp_err_i", false,-1);
-        tracep->declBus(c+21,"riscx ifu if_resp_instr_i", false,-1, 31,0);
-        tracep->declBus(c+13,"riscx ifu if_instr_o", false,-1, 31,0);
-        tracep->declBus(c+6,"riscx ifu if_pc_o", false,-1, 31,0);
-        tracep->declBus(c+21,"riscx ifu instr", false,-1, 31,0);
-        tracep->declBit(c+1,"riscx ifu dec_bjp", false,-1);
-        tracep->declBit(c+22,"riscx ifu dec_bxx", false,-1);
-        tracep->declBit(c+23,"riscx ifu dec_jal", false,-1);
-        tracep->declBit(c+24,"riscx ifu dec_jalr", false,-1);
-        tracep->declBus(c+25,"riscx ifu dec_jalr_rs1_idx", false,-1, 4,0);
-        tracep->declBus(c+2,"riscx ifu dec_bjp_imm", false,-1, 31,0);
-        tracep->declBit(c+3,"riscx ifu prdt_taken", false,-1);
-        tracep->declBit(c+26,"riscx ifu jalr_rs1_x0", false,-1);
-        tracep->declBit(c+27,"riscx ifu jalr_rs1_x1", false,-1);
-        tracep->declBus(c+9,"riscx ifu prdt_pc_add_op1", false,-1, 31,0);
-        tracep->declBus(c+2,"riscx ifu prdt_pc_add_op2", false,-1, 31,0);
-        tracep->declBus(c+10,"riscx ifu pc_add_op1", false,-1, 31,0);
-        tracep->declBus(c+4,"riscx ifu pc_add_op2", false,-1, 31,0);
-        tracep->declBus(c+21,"riscx ifu fmd_1 instr_i", false,-1, 31,0);
-        tracep->declBit(c+1,"riscx ifu fmd_1 dec_bjp_o", false,-1);
-        tracep->declBit(c+22,"riscx ifu fmd_1 dec_bxx_o", false,-1);
-        tracep->declBit(c+23,"riscx ifu fmd_1 dec_jal_o", false,-1);
-        tracep->declBit(c+24,"riscx ifu fmd_1 dec_jalr_o", false,-1);
-        tracep->declBus(c+25,"riscx ifu fmd_1 dec_jalr_rs1_idx_o", false,-1, 4,0);
-        tracep->declBus(c+2,"riscx ifu fmd_1 dec_bjp_imm_o", false,-1, 31,0);
-        tracep->declBus(c+28,"riscx ifu fmd_1 opcode", false,-1, 6,0);
-        tracep->declBus(c+29,"riscx ifu fmd_1 bjp_imm_bxx", false,-1, 31,0);
-        tracep->declBus(c+30,"riscx ifu fmd_1 bjp_imm_jal", false,-1, 31,0);
-        tracep->declBus(c+31,"riscx ifu fmd_1 bjp_imm_jalr", false,-1, 31,0);
-        tracep->declBit(c+11,"riscx if_idu clk", false,-1);
-        tracep->declBit(c+12,"riscx if_idu rst_n", false,-1);
-        tracep->declBit(c+14,"riscx if_idu stall_i", false,-1);
-        tracep->declBus(c+6,"riscx if_idu if_pc_i", false,-1, 31,0);
-        tracep->declBus(c+13,"riscx if_idu if_instr_i", false,-1, 31,0);
-        tracep->declBus(c+7,"riscx if_idu if_id_pc_o", false,-1, 31,0);
-        tracep->declBus(c+8,"riscx if_idu if_id_instr_o", false,-1, 31,0);
-        tracep->declBus(c+32,"riscx if_idu pc_dff_lr DW", false,-1, 31,0);
-        tracep->declBit(c+11,"riscx if_idu pc_dff_lr clk", false,-1);
-        tracep->declBit(c+12,"riscx if_idu pc_dff_lr rst_n", false,-1);
-        tracep->declBit(c+33,"riscx if_idu pc_dff_lr ld_en", false,-1);
-        tracep->declBus(c+6,"riscx if_idu pc_dff_lr din", false,-1, 31,0);
-        tracep->declBus(c+7,"riscx if_idu pc_dff_lr qout", false,-1, 31,0);
-        tracep->declBus(c+7,"riscx if_idu pc_dff_lr qout_r", false,-1, 31,0);
-        tracep->declBus(c+32,"riscx if_idu instr_dff_lr DW", false,-1, 31,0);
-        tracep->declBit(c+11,"riscx if_idu instr_dff_lr clk", false,-1);
-        tracep->declBit(c+12,"riscx if_idu instr_dff_lr rst_n", false,-1);
-        tracep->declBit(c+33,"riscx if_idu instr_dff_lr ld_en", false,-1);
-        tracep->declBus(c+13,"riscx if_idu instr_dff_lr din", false,-1, 31,0);
-        tracep->declBus(c+8,"riscx if_idu instr_dff_lr qout", false,-1, 31,0);
-        tracep->declBus(c+8,"riscx if_idu instr_dff_lr qout_r", false,-1, 31,0);
+        tracep->declBit(c+69,"clk", false,-1);
+        tracep->declBit(c+70,"rst_n", false,-1);
+        tracep->declBit(c+69,"riscx clk", false,-1);
+        tracep->declBit(c+70,"riscx rst_n", false,-1);
+        tracep->declBus(c+1,"riscx if_pc_next", false,-1, 31,0);
+        tracep->declBus(c+2,"riscx pr_pc", false,-1, 31,0);
+        tracep->declBus(c+2,"riscx if_pc", false,-1, 31,0);
+        tracep->declBus(c+3,"riscx if_instr", false,-1, 31,0);
+        tracep->declBus(c+4,"riscx if_id_pc", false,-1, 31,0);
+        tracep->declBus(c+5,"riscx if_id_instr", false,-1, 31,0);
+        tracep->declBit(c+6,"riscx dec_rs1_en", false,-1);
+        tracep->declBit(c+7,"riscx dec_rs2_en", false,-1);
+        tracep->declBus(c+8,"riscx dec_rs1_idx", false,-1, 4,0);
+        tracep->declBus(c+9,"riscx dec_rs2_idx", false,-1, 4,0);
+        tracep->declBus(c+10,"riscx rf_rs1_rdata", false,-1, 31,0);
+        tracep->declBus(c+11,"riscx rf_rs2_rdata", false,-1, 31,0);
+        tracep->declBit(c+69,"riscx pc_reg_u clk", false,-1);
+        tracep->declBit(c+70,"riscx pc_reg_u rst_n", false,-1);
+        tracep->declBit(c+71,"riscx pc_reg_u stall_i", false,-1);
+        tracep->declBus(c+1,"riscx pc_reg_u pc_next_i", false,-1, 31,0);
+        tracep->declBus(c+2,"riscx pc_reg_u pc_o", false,-1, 31,0);
+        tracep->declBus(c+2,"riscx pc_reg_u pc_r", false,-1, 31,0);
+        tracep->declBus(c+2,"riscx if_u pc_i", false,-1, 31,0);
+        tracep->declBus(c+1,"riscx if_u if_pc_next_o", false,-1, 31,0);
+        tracep->declBus(c+3,"riscx if_u if_instr_o", false,-1, 31,0);
+        tracep->declBus(c+2,"riscx if_u if_pc_o", false,-1, 31,0);
+        tracep->declBit(c+72,"riscx if_u if_req_valid", false,-1);
+        tracep->declBit(c+72,"riscx if_u if_req_ready", false,-1);
+        tracep->declBus(c+2,"riscx if_u if_req_pc", false,-1, 31,0);
+        tracep->declBit(c+72,"riscx if_u if_resp_valid", false,-1);
+        tracep->declBit(c+72,"riscx if_u if_resp_ready", false,-1);
+        tracep->declBit(c+71,"riscx if_u if_resp_err", false,-1);
+        tracep->declBus(c+3,"riscx if_u if_resp_instr", false,-1, 31,0);
+        tracep->declBus(c+3,"riscx if_u instr", false,-1, 31,0);
+        tracep->declBit(c+12,"riscx if_u dec_bjp", false,-1);
+        tracep->declBit(c+13,"riscx if_u dec_bxx", false,-1);
+        tracep->declBit(c+14,"riscx if_u dec_jal", false,-1);
+        tracep->declBit(c+15,"riscx if_u dec_jalr", false,-1);
+        tracep->declBus(c+16,"riscx if_u dec_jalr_rs1_idx", false,-1, 4,0);
+        tracep->declBus(c+17,"riscx if_u dec_bjp_imm", false,-1, 31,0);
+        tracep->declBit(c+18,"riscx if_u prdt_taken", false,-1);
+        tracep->declBit(c+19,"riscx if_u jalr_rs1_x0", false,-1);
+        tracep->declBit(c+20,"riscx if_u jalr_rs1_x1", false,-1);
+        tracep->declBus(c+21,"riscx if_u prdt_pc_add_op1", false,-1, 31,0);
+        tracep->declBus(c+17,"riscx if_u prdt_pc_add_op2", false,-1, 31,0);
+        tracep->declBus(c+22,"riscx if_u pc_add_op1", false,-1, 31,0);
+        tracep->declBus(c+23,"riscx if_u pc_add_op2", false,-1, 31,0);
+        tracep->declBit(c+72,"riscx if_u fetch_if2icb_u if_req_valid_i", false,-1);
+        tracep->declBit(c+72,"riscx if_u fetch_if2icb_u if_req_ready_o", false,-1);
+        tracep->declBus(c+2,"riscx if_u fetch_if2icb_u if_req_pc_i", false,-1, 31,0);
+        tracep->declBit(c+72,"riscx if_u fetch_if2icb_u if_resp_valid_o", false,-1);
+        tracep->declBit(c+72,"riscx if_u fetch_if2icb_u if_resp_ready_i", false,-1);
+        tracep->declBit(c+71,"riscx if_u fetch_if2icb_u if_resp_err_o", false,-1);
+        tracep->declBus(c+3,"riscx if_u fetch_if2icb_u if_resp_instr_o", false,-1, 31,0);
+        tracep->declBus(c+3,"riscx if_u fetch_if2icb_u instr", false,-1, 31,0);
+        tracep->declBus(c+2,"riscx if_u fetch_if2icb_u pc", false,-1, 31,0);
+        tracep->declBus(c+3,"riscx if_u mini_dec_u instr_i", false,-1, 31,0);
+        tracep->declBit(c+12,"riscx if_u mini_dec_u dec_bjp_o", false,-1);
+        tracep->declBit(c+13,"riscx if_u mini_dec_u dec_bxx_o", false,-1);
+        tracep->declBit(c+14,"riscx if_u mini_dec_u dec_jal_o", false,-1);
+        tracep->declBit(c+15,"riscx if_u mini_dec_u dec_jalr_o", false,-1);
+        tracep->declBus(c+16,"riscx if_u mini_dec_u dec_jalr_rs1_idx_o", false,-1, 4,0);
+        tracep->declBus(c+17,"riscx if_u mini_dec_u dec_bjp_imm_o", false,-1, 31,0);
+        tracep->declBus(c+24,"riscx if_u mini_dec_u opcode", false,-1, 6,0);
+        tracep->declBus(c+25,"riscx if_u mini_dec_u bjp_imm_bxx", false,-1, 31,0);
+        tracep->declBus(c+26,"riscx if_u mini_dec_u bjp_imm_jal", false,-1, 31,0);
+        tracep->declBus(c+27,"riscx if_u mini_dec_u bjp_imm_jalr", false,-1, 31,0);
+        tracep->declBit(c+69,"riscx if_id_u clk", false,-1);
+        tracep->declBit(c+70,"riscx if_id_u rst_n", false,-1);
+        tracep->declBit(c+71,"riscx if_id_u stall_i", false,-1);
+        tracep->declBus(c+2,"riscx if_id_u if_pc_i", false,-1, 31,0);
+        tracep->declBus(c+3,"riscx if_id_u if_instr_i", false,-1, 31,0);
+        tracep->declBus(c+4,"riscx if_id_u if_id_pc_o", false,-1, 31,0);
+        tracep->declBus(c+5,"riscx if_id_u if_id_instr_o", false,-1, 31,0);
+        tracep->declBus(c+73,"riscx if_id_u pc_dff_lr DW", false,-1, 31,0);
+        tracep->declBit(c+69,"riscx if_id_u pc_dff_lr clk", false,-1);
+        tracep->declBit(c+70,"riscx if_id_u pc_dff_lr rst_n", false,-1);
+        tracep->declBit(c+72,"riscx if_id_u pc_dff_lr ld_en", false,-1);
+        tracep->declBus(c+2,"riscx if_id_u pc_dff_lr din", false,-1, 31,0);
+        tracep->declBus(c+4,"riscx if_id_u pc_dff_lr qout", false,-1, 31,0);
+        tracep->declBus(c+4,"riscx if_id_u pc_dff_lr qout_r", false,-1, 31,0);
+        tracep->declBus(c+73,"riscx if_id_u instr_dff_lr DW", false,-1, 31,0);
+        tracep->declBit(c+69,"riscx if_id_u instr_dff_lr clk", false,-1);
+        tracep->declBit(c+70,"riscx if_id_u instr_dff_lr rst_n", false,-1);
+        tracep->declBit(c+72,"riscx if_id_u instr_dff_lr ld_en", false,-1);
+        tracep->declBus(c+3,"riscx if_id_u instr_dff_lr din", false,-1, 31,0);
+        tracep->declBus(c+5,"riscx if_id_u instr_dff_lr qout", false,-1, 31,0);
+        tracep->declBus(c+5,"riscx if_id_u instr_dff_lr qout_r", false,-1, 31,0);
+        tracep->declBus(c+4,"riscx id_u pc_i", false,-1, 31,0);
+        tracep->declBus(c+5,"riscx id_u instr_i", false,-1, 31,0);
+        tracep->declBus(c+8,"riscx id_u dec_rs1_idx_o", false,-1, 4,0);
+        tracep->declBus(c+9,"riscx id_u dec_rs2_idx_o", false,-1, 4,0);
+        tracep->declBit(c+6,"riscx id_u dec_rs1_en_o", false,-1);
+        tracep->declBit(c+7,"riscx id_u dec_rs2_en_o", false,-1);
+        tracep->declBus(c+10,"riscx id_u rs1_rdata_i", false,-1, 31,0);
+        tracep->declBus(c+10,"riscx id_u rs2_rdata_i", false,-1, 31,0);
+        tracep->declBus(c+28,"riscx id_u dec_rd_idx_o", false,-1, 4,0);
+        tracep->declBit(c+29,"riscx id_u dec_rd_en_o", false,-1);
+        tracep->declBus(c+74,"riscx id_u dec_pc_o", false,-1, 31,0);
+        tracep->declBus(c+75,"riscx id_u dec_instr_o", false,-1, 31,0);
+        tracep->declBus(c+30,"riscx id_u dec_alu_op1_o", false,-1, 31,0);
+        tracep->declBus(c+31,"riscx id_u dec_alu_op2_o", false,-1, 31,0);
+        tracep->declBus(c+32,"riscx id_u dec_alu_fun_o", false,-1, 3,0);
+        tracep->declBus(c+33,"riscx id_u opcode", false,-1, 6,0);
+        tracep->declBus(c+28,"riscx id_u rd", false,-1, 4,0);
+        tracep->declBus(c+34,"riscx id_u fun3", false,-1, 2,0);
+        tracep->declBus(c+8,"riscx id_u rs1", false,-1, 4,0);
+        tracep->declBus(c+9,"riscx id_u rs2", false,-1, 4,0);
+        tracep->declBus(c+35,"riscx id_u fun7", false,-1, 6,0);
+        tracep->declBus(c+36,"riscx id_u dec_imm_o", false,-1, 31,0);
+        tracep->declBus(c+73,"riscx regfile_u reg_num", false,-1, 31,0);
+        tracep->declBit(c+69,"riscx regfile_u clk", false,-1);
+        tracep->declBit(c+70,"riscx regfile_u rst_n", false,-1);
+        tracep->declBit(c+76,"riscx regfile_u rd_en_i", false,-1);
+        tracep->declBus(c+77,"riscx regfile_u rd_idx_i", false,-1, 4,0);
+        tracep->declBus(c+78,"riscx regfile_u rd_wdata_i", false,-1, 31,0);
+        tracep->declBit(c+6,"riscx regfile_u rs1_en_i", false,-1);
+        tracep->declBit(c+7,"riscx regfile_u rs2_en_i", false,-1);
+        tracep->declBus(c+8,"riscx regfile_u rs1_idx_i", false,-1, 4,0);
+        tracep->declBus(c+9,"riscx regfile_u rs2_idx_i", false,-1, 4,0);
+        tracep->declBus(c+10,"riscx regfile_u rs1_rdata_o", false,-1, 31,0);
+        tracep->declBus(c+11,"riscx regfile_u rs2_rdata_o", false,-1, 31,0);
+        tracep->declBus(c+79,"riscx regfile_u rs1_x1_rdata_o", false,-1, 31,0);
+        {int i; for (i=0; i<31; i++) {
+                tracep->declBus(c+37+i*1,"riscx regfile_u reg_data", true,(i+1), 31,0);}}
+        tracep->declBus(c+68,"riscx regfile_u i", false,-1, 31,0);
     }
 }
 
@@ -131,118 +184,186 @@ void Vriscx___024root__traceFullSub0(Vriscx___024root* vlSelf, VerilatedVcd* tra
     if (false && oldp) {}  // Prevent unused
     // Body
     {
-        tracep->fullBit(oldp+1,(vlSelf->riscx__DOT__ifu__DOT__dec_bjp));
-        tracep->fullIData(oldp+2,(vlSelf->riscx__DOT__ifu__DOT__dec_bjp_imm),32);
-        tracep->fullBit(oldp+3,(vlSelf->riscx__DOT__ifu__DOT__prdt_taken));
-        tracep->fullIData(oldp+4,((((IData)(vlSelf->riscx__DOT__ifu__DOT__dec_bjp) 
-                                    & (IData)(vlSelf->riscx__DOT__ifu__DOT__prdt_taken))
-                                    ? vlSelf->riscx__DOT__ifu__DOT__dec_bjp_imm
-                                    : 4U)),32);
-        tracep->fullIData(oldp+5,(((((IData)(vlSelf->riscx__DOT__ifu__DOT__dec_bjp) 
-                                     & (IData)(vlSelf->riscx__DOT__ifu__DOT__prdt_taken))
+        tracep->fullIData(oldp+1,(((((IData)(vlSelf->riscx__DOT__if_u__DOT__dec_bjp) 
+                                     & (IData)(vlSelf->riscx__DOT__if_u__DOT__prdt_taken))
                                      ? ((0x67U == (0x7fU 
-                                                   & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))
+                                                   & vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr))
                                          ? ((0U == 
                                              (0x1fU 
-                                              & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                              & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                  >> 0xfU)))
-                                             ? 0U : 
-                                            ((1U == 
-                                              (0x1fU 
-                                               & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
-                                                  >> 0xfU)))
-                                              ? 1U : 2U))
-                                         : vlSelf->riscx__DOT__pru__DOT__pc_r)
-                                     : vlSelf->riscx__DOT__pru__DOT__pc_r) 
-                                   + (((IData)(vlSelf->riscx__DOT__ifu__DOT__dec_bjp) 
-                                       & (IData)(vlSelf->riscx__DOT__ifu__DOT__prdt_taken))
-                                       ? vlSelf->riscx__DOT__ifu__DOT__dec_bjp_imm
+                                             ? 0U : 4U)
+                                         : vlSelf->riscx__DOT__pc_reg_u__DOT__pc_r)
+                                     : vlSelf->riscx__DOT__pc_reg_u__DOT__pc_r) 
+                                   + (((IData)(vlSelf->riscx__DOT__if_u__DOT__dec_bjp) 
+                                       & (IData)(vlSelf->riscx__DOT__if_u__DOT__prdt_taken))
+                                       ? vlSelf->riscx__DOT__if_u__DOT__dec_bjp_imm
                                        : 4U))),32);
-        tracep->fullIData(oldp+6,(vlSelf->riscx__DOT__pru__DOT__pc_r),32);
-        tracep->fullIData(oldp+7,(vlSelf->riscx__DOT__if_idu__DOT__pc_dff_lr__DOT__qout_r),32);
-        tracep->fullIData(oldp+8,(vlSelf->riscx__DOT__if_idu__DOT__instr_dff_lr__DOT__qout_r),32);
-        tracep->fullIData(oldp+9,(((0x67U == (0x7fU 
-                                              & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))
-                                    ? ((0U == (0x1fU 
-                                               & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
-                                                  >> 0xfU)))
-                                        ? 0U : ((1U 
-                                                 == 
-                                                 (0x1fU 
-                                                  & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
-                                                     >> 0xfU)))
-                                                 ? 1U
-                                                 : 2U))
-                                    : vlSelf->riscx__DOT__pru__DOT__pc_r)),32);
-        tracep->fullIData(oldp+10,((((IData)(vlSelf->riscx__DOT__ifu__DOT__dec_bjp) 
-                                     & (IData)(vlSelf->riscx__DOT__ifu__DOT__prdt_taken))
+        tracep->fullIData(oldp+2,(vlSelf->riscx__DOT__pc_reg_u__DOT__pc_r),32);
+        tracep->fullIData(oldp+3,(vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr),32);
+        tracep->fullIData(oldp+4,(vlSelf->riscx__DOT__if_id_u__DOT__pc_dff_lr__DOT__qout_r),32);
+        tracep->fullIData(oldp+5,(vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r),32);
+        tracep->fullBit(oldp+6,(vlSelf->riscx__DOT__dec_rs1_en));
+        tracep->fullBit(oldp+7,((1U & ((0x40U & vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r)
+                                        ? (IData)((0x23U 
+                                                   == 
+                                                   (0x3fU 
+                                                    & vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r)))
+                                        : (IData)((0x33U 
+                                                   == 
+                                                   (0x3fU 
+                                                    & vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r)))))));
+        tracep->fullCData(oldp+8,((0x1fU & (vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r 
+                                            >> 0xfU))),5);
+        tracep->fullCData(oldp+9,((0x1fU & (vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r 
+                                            >> 0x14U))),5);
+        tracep->fullIData(oldp+10,(vlSelf->riscx__DOT__rf_rs1_rdata),32);
+        tracep->fullIData(oldp+11,(((1U & ((0U == (0x1fU 
+                                                   & (vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r 
+                                                      >> 0x14U))) 
+                                           | (~ ((0x40U 
+                                                  & vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r)
+                                                  ? (IData)(
+                                                            (0x23U 
+                                                             == 
+                                                             (0x3fU 
+                                                              & vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r)))
+                                                  : (IData)(
+                                                            (0x33U 
+                                                             == 
+                                                             (0x3fU 
+                                                              & vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r)))))))
+                                     ? 0U : ((0x1eU 
+                                              >= (0x1fU 
+                                                  & ((vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r 
+                                                      >> 0x14U) 
+                                                     - (IData)(1U))))
+                                              ? vlSelf->riscx__DOT__regfile_u__DOT__reg_data
+                                             [(0x1fU 
+                                               & ((vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r 
+                                                   >> 0x14U) 
+                                                  - (IData)(1U)))]
+                                              : 0U))),32);
+        tracep->fullBit(oldp+12,(vlSelf->riscx__DOT__if_u__DOT__dec_bjp));
+        tracep->fullBit(oldp+13,((0x63U == (0x7fU & vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr))));
+        tracep->fullBit(oldp+14,((0x6fU == (0x7fU & vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr))));
+        tracep->fullBit(oldp+15,((0x67U == (0x7fU & vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr))));
+        tracep->fullCData(oldp+16,((0x1fU & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
+                                             >> 0xfU))),5);
+        tracep->fullIData(oldp+17,(vlSelf->riscx__DOT__if_u__DOT__dec_bjp_imm),32);
+        tracep->fullBit(oldp+18,(vlSelf->riscx__DOT__if_u__DOT__prdt_taken));
+        tracep->fullBit(oldp+19,((0U == (0x1fU & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
+                                                  >> 0xfU)))));
+        tracep->fullBit(oldp+20,((1U == (0x1fU & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
+                                                  >> 0xfU)))));
+        tracep->fullIData(oldp+21,(((0x67U == (0x7fU 
+                                               & vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr))
+                                     ? ((0U == (0x1fU 
+                                                & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
+                                                   >> 0xfU)))
+                                         ? 0U : 4U)
+                                     : vlSelf->riscx__DOT__pc_reg_u__DOT__pc_r)),32);
+        tracep->fullIData(oldp+22,((((IData)(vlSelf->riscx__DOT__if_u__DOT__dec_bjp) 
+                                     & (IData)(vlSelf->riscx__DOT__if_u__DOT__prdt_taken))
                                      ? ((0x67U == (0x7fU 
-                                                   & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))
+                                                   & vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr))
                                          ? ((0U == 
                                              (0x1fU 
-                                              & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                              & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                  >> 0xfU)))
-                                             ? 0U : 
-                                            ((1U == 
-                                              (0x1fU 
-                                               & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
-                                                  >> 0xfU)))
-                                              ? 1U : 2U))
-                                         : vlSelf->riscx__DOT__pru__DOT__pc_r)
-                                     : vlSelf->riscx__DOT__pru__DOT__pc_r)),32);
-        tracep->fullBit(oldp+11,(vlSelf->clk));
-        tracep->fullBit(oldp+12,(vlSelf->rst_n));
-        tracep->fullIData(oldp+13,(vlSelf->riscx__DOT__if_instr),32);
-        tracep->fullBit(oldp+14,(0U));
-        tracep->fullBit(oldp+15,(vlSelf->riscx__DOT__ifu__DOT__if_req_valid_o));
-        tracep->fullBit(oldp+16,(vlSelf->riscx__DOT__ifu__DOT__if_req_ready_i));
-        tracep->fullIData(oldp+17,(vlSelf->riscx__DOT__ifu__DOT__if_req_pc_o),32);
-        tracep->fullBit(oldp+18,(vlSelf->riscx__DOT__ifu__DOT__if_resp_valid_i));
-        tracep->fullBit(oldp+19,(vlSelf->riscx__DOT__ifu__DOT__if_resp_ready_o));
-        tracep->fullBit(oldp+20,(vlSelf->riscx__DOT__ifu__DOT__if_resp_err_i));
-        tracep->fullIData(oldp+21,(vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i),32);
-        tracep->fullBit(oldp+22,((0x63U == (0x7fU & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))));
-        tracep->fullBit(oldp+23,((0x6fU == (0x7fU & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))));
-        tracep->fullBit(oldp+24,((0x67U == (0x7fU & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i))));
-        tracep->fullCData(oldp+25,((0x1fU & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
-                                             >> 0xfU))),5);
-        tracep->fullBit(oldp+26,((0U == (0x1fU & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
-                                                  >> 0xfU)))));
-        tracep->fullBit(oldp+27,((1U == (0x1fU & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
-                                                  >> 0xfU)))));
-        tracep->fullCData(oldp+28,((0x7fU & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i)),7);
-        tracep->fullIData(oldp+29,((((- (IData)((vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                             ? 0U : 4U)
+                                         : vlSelf->riscx__DOT__pc_reg_u__DOT__pc_r)
+                                     : vlSelf->riscx__DOT__pc_reg_u__DOT__pc_r)),32);
+        tracep->fullIData(oldp+23,((((IData)(vlSelf->riscx__DOT__if_u__DOT__dec_bjp) 
+                                     & (IData)(vlSelf->riscx__DOT__if_u__DOT__prdt_taken))
+                                     ? vlSelf->riscx__DOT__if_u__DOT__dec_bjp_imm
+                                     : 4U)),32);
+        tracep->fullCData(oldp+24,((0x7fU & vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr)),7);
+        tracep->fullIData(oldp+25,((((- (IData)((vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                  >> 0x1fU))) 
                                      << 0xdU) | ((0x1000U 
-                                                  & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                                  & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                      >> 0x13U)) 
                                                  | ((0x800U 
-                                                     & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                                     & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                         << 4U)) 
                                                     | ((0x7e0U 
-                                                        & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                                        & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                            >> 0x14U)) 
                                                        | (0x1eU 
-                                                          & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                                          & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                              >> 7U))))))),32);
-        tracep->fullIData(oldp+30,((((- (IData)((vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+        tracep->fullIData(oldp+26,((((- (IData)((vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                  >> 0x1fU))) 
                                      << 0x15U) | ((0x100000U 
-                                                   & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                                   & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                       >> 0xbU)) 
                                                   | ((0xff000U 
-                                                      & vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i) 
+                                                      & vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr) 
                                                      | ((0x800U 
-                                                         & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                                         & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                             >> 9U)) 
                                                         | (0x7feU 
-                                                           & (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                                           & (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                               >> 0x14U))))))),32);
-        tracep->fullIData(oldp+31,((((- (IData)((vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+        tracep->fullIData(oldp+27,((((- (IData)((vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                  >> 0x1fU))) 
-                                     << 0xcU) | (vlSelf->riscx__DOT__ifu__DOT__if_resp_instr_i 
+                                     << 0xcU) | (vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr 
                                                  >> 0x14U))),32);
-        tracep->fullIData(oldp+32,(0x20U),32);
-        tracep->fullBit(oldp+33,(1U));
+        tracep->fullCData(oldp+28,((0x1fU & (vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r 
+                                             >> 7U))),5);
+        tracep->fullBit(oldp+29,(vlSelf->riscx__DOT__id_u__DOT__dec_rd_en_o));
+        tracep->fullIData(oldp+30,(vlSelf->riscx__DOT__id_u__DOT__dec_alu_op1_o),32);
+        tracep->fullIData(oldp+31,(vlSelf->riscx__DOT__id_u__DOT__dec_alu_op2_o),32);
+        tracep->fullCData(oldp+32,(vlSelf->riscx__DOT__id_u__DOT__dec_alu_fun_o),4);
+        tracep->fullCData(oldp+33,((0x7fU & vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r)),7);
+        tracep->fullCData(oldp+34,((7U & (vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r 
+                                          >> 0xcU))),3);
+        tracep->fullCData(oldp+35,((vlSelf->riscx__DOT__if_id_u__DOT__instr_dff_lr__DOT__qout_r 
+                                    >> 0x19U)),7);
+        tracep->fullIData(oldp+36,(vlSelf->riscx__DOT__id_u__DOT__dec_imm_o),32);
+        tracep->fullIData(oldp+37,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[0]),32);
+        tracep->fullIData(oldp+38,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[1]),32);
+        tracep->fullIData(oldp+39,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[2]),32);
+        tracep->fullIData(oldp+40,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[3]),32);
+        tracep->fullIData(oldp+41,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[4]),32);
+        tracep->fullIData(oldp+42,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[5]),32);
+        tracep->fullIData(oldp+43,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[6]),32);
+        tracep->fullIData(oldp+44,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[7]),32);
+        tracep->fullIData(oldp+45,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[8]),32);
+        tracep->fullIData(oldp+46,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[9]),32);
+        tracep->fullIData(oldp+47,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[10]),32);
+        tracep->fullIData(oldp+48,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[11]),32);
+        tracep->fullIData(oldp+49,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[12]),32);
+        tracep->fullIData(oldp+50,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[13]),32);
+        tracep->fullIData(oldp+51,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[14]),32);
+        tracep->fullIData(oldp+52,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[15]),32);
+        tracep->fullIData(oldp+53,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[16]),32);
+        tracep->fullIData(oldp+54,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[17]),32);
+        tracep->fullIData(oldp+55,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[18]),32);
+        tracep->fullIData(oldp+56,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[19]),32);
+        tracep->fullIData(oldp+57,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[20]),32);
+        tracep->fullIData(oldp+58,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[21]),32);
+        tracep->fullIData(oldp+59,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[22]),32);
+        tracep->fullIData(oldp+60,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[23]),32);
+        tracep->fullIData(oldp+61,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[24]),32);
+        tracep->fullIData(oldp+62,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[25]),32);
+        tracep->fullIData(oldp+63,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[26]),32);
+        tracep->fullIData(oldp+64,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[27]),32);
+        tracep->fullIData(oldp+65,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[28]),32);
+        tracep->fullIData(oldp+66,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[29]),32);
+        tracep->fullIData(oldp+67,(vlSelf->riscx__DOT__regfile_u__DOT__reg_data[30]),32);
+        tracep->fullIData(oldp+68,(vlSelf->riscx__DOT__regfile_u__DOT__i),32);
+        tracep->fullBit(oldp+69,(vlSelf->clk));
+        tracep->fullBit(oldp+70,(vlSelf->rst_n));
+        tracep->fullBit(oldp+71,(0U));
+        tracep->fullBit(oldp+72,(1U));
+        tracep->fullIData(oldp+73,(0x20U),32);
+        tracep->fullIData(oldp+74,(vlSelf->riscx__DOT__id_u__DOT__dec_pc_o),32);
+        tracep->fullIData(oldp+75,(vlSelf->riscx__DOT__id_u__DOT__dec_instr_o),32);
+        tracep->fullBit(oldp+76,(vlSelf->riscx__DOT__regfile_u__DOT__rd_en_i));
+        tracep->fullCData(oldp+77,(vlSelf->riscx__DOT__regfile_u__DOT__rd_idx_i),5);
+        tracep->fullIData(oldp+78,(vlSelf->riscx__DOT__regfile_u__DOT__rd_wdata_i),32);
+        tracep->fullIData(oldp+79,(vlSelf->riscx__DOT__regfile_u__DOT__rs1_x1_rdata_o),32);
     }
 }

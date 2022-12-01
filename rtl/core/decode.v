@@ -4,7 +4,7 @@
 
 module decode(
     // from if_id_reg
-    input      [`PC_WIDTH-1:o]      pc_i,
+    input      [`PC_WIDTH-1:0]      pc_i,
     input      [`INSTR_WIDTH-1:0]   instr_i,
 
     // to REG FILE
@@ -48,7 +48,7 @@ module decode(
 //  rs1_en rs2_en rd_en imm
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 
-    reg [`XLEN-1:0]          dec_imm_o,
+    reg [`XLEN-1:0]          dec_imm_o;
     
     // 所有立即数都是符号扩展的
     // rs1 rs2 rd 读写使能 && imm解析
@@ -90,7 +90,7 @@ module decode(
                     dec_rs2_en_o = 1'b0;
                     dec_rd_en_o  = 1'b1;
                     dec_imm_o = `XLEN'b0;  
-                end esle if begin // CSR
+                end else begin // CSR
                     dec_rs1_en_o = 1'b1;
                     dec_rs2_en_o = 1'b0;
                     dec_rd_en_o  = 1'b1;

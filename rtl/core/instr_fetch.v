@@ -14,35 +14,51 @@ module instr_fetch(
     // PC REG
     input  [`PC_WIDTH-1:0]    pc_i,
     output [`PC_WIDTH-1:0]    if_pc_next_o,
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-// 根据PC取指令
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 
-    // REQ CHANNEL
-    output                    if_req_valid_o,
-    input                     if_req_ready_i,
-    output [`PC_WIDTH-1:0]    if_req_pc_o,
-    // RESP CHANNEL
-    input                     if_resp_valid_i,
-    output                    if_resp_ready_o,
-    input                     if_resp_err_i,
-    input [`INSTR_WIDTH-1:0]  if_resp_instr_i,
-
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-// TO IF_ID_REG
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-    
+    // IF_ID
     output [`INSTR_WIDTH-1:0] if_instr_o,
     output [`PC_WIDTH-1:0]    if_pc_o
 );
 
-    assign if_pc_o = pc_i;
+    assign if_pc_o    = pc_i;
+    assign if_instr_o = instr;
 
-    wire [`INSTR_WIDTH-1:0] instr = if_resp_instr_i;
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+// 根据PC中取指令
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+
+    // REQ CHANNEL
+    wire                     if_req_valid;
+    wire                     if_req_ready;
+    wire  [`PC_WIDTH-1:0]    if_req_pc;
+    // RESP CHANNEL
+    wire                     if_resp_valid;
+    wire                     if_resp_ready;
+    wire                     if_resp_err;
+    wire  [`INSTR_WIDTH-1:0] if_resp_instr;
+
+    assign if_req_valid  = 1;
+    assign if_req_pc     = pc_i;
+
+    assign if_resp_ready = 1;
+    
+    fetch_if2icb fetch_if2icb_u(
+        .if_req_valid_i  (if_req_valid),
+        .if_req_ready_o  (if_req_ready),
+        .if_req_pc_i     (if_req_pc),
+
+        .if_resp_valid_o (if_resp_valid),
+        .if_resp_ready_i (if_resp_ready),
+        .if_resp_err_o   (if_resp_err),
+        .if_resp_instr_o (if_resp_instr)
+    );
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 // 部分译码        
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+
+    wire [`INSTR_WIDTH-1:0] instr = if_resp_instr;
+
     wire                      dec_bjp;
     wire                      dec_bxx;
     wire                      dec_jal;
@@ -50,7 +66,7 @@ module instr_fetch(
     wire [`REG_IDX_WIDTH-1:0] dec_jalr_rs1_idx;
     wire [`XLEN-1:0]          dec_bjp_imm;
 
-    fetch_mini_dec fmd_1(
+    fetch_mini_dec mini_dec_u(
         .instr_i            (instr),
         .dec_bjp_o          (dec_bjp),
         .dec_bxx_o          (dec_bxx),
@@ -68,8 +84,10 @@ module instr_fetch(
     // 2. bxx 向后预测为跳转
     wire prdt_taken = ((dec_jal | dec_jalr) | (dec_bxx & dec_bjp_imm[31]));
    
-    wire jalr_rs1_x0 = (dec_jalr_rs1_idx == `REG_IDX_WIDTH'd0);
-    wire jalr_rs1_x1 = (dec_jalr_rs1_idx == `REG_IDX_WIDTH'd1);
+   // X0直接返回0
+   // X1用于函数调用返回 需要特殊优化
+    wire jalr_rs1_x0 = (dec_jalr_rs1_idx == `REG_X0);
+    wire jalr_rs1_x1 = (dec_jalr_rs1_idx == `REG_X1);
 
     reg [`XLEN-1:0] prdt_pc_add_op1;
     
@@ -78,9 +96,9 @@ module instr_fetch(
             if(jalr_rs1_x0) 
                 prdt_pc_add_op1 = `XLEN'd0;
             else if(jalr_rs1_x1)
-                prdt_pc_add_op1 = `XLEN'd1;
+                prdt_pc_add_op1 = `XLEN'd4;
             else
-                prdt_pc_add_op1 = `XLEN'd2;
+                prdt_pc_add_op1 = `XLEN'd4;
         end else begin // jal && bxx
             prdt_pc_add_op1 = pc_i;
         end
@@ -91,6 +109,7 @@ module instr_fetch(
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 //  PC生成 产生下一周期的PC
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+    
     reg [`PC_WIDTH-1:0] pc_add_op1;
     reg [`PC_WIDTH-1:0] pc_add_op2;
     
@@ -110,6 +129,5 @@ module instr_fetch(
 
     // 下一条PC
     assign if_pc_next_o = pc_add_op1 + pc_add_op2;
-
 
 endmodule

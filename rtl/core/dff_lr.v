@@ -19,7 +19,7 @@ module dff_lr
     assign qout = qout_r;
 
     always @(posedge clk or negedge rst_n) begin
-        if(rst_n)
+        if(~rst_n)
             qout_r <= 0;
         else if(ld_en)
             qout_r <= din;

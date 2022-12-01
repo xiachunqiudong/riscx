@@ -31,7 +31,7 @@ module riscx(
 // 取指阶段     
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
     
-    pc_reg pru(
+    pc_reg pc_reg_u(
         .clk       (clk),
         .rst_n     (rst_n),
         .stall_i   (1'b0),
@@ -40,31 +40,22 @@ module riscx(
         .pc_o      (pr_pc)
     );
 
-    instr_fetch ifu(
+    instr_fetch if_u(
         // PC REG
         .pc_i            (pr_pc),
         .if_pc_next_o    (if_pc_next),
         
-        // MEM BUS
-        .if_req_valid_o  (),
-        .if_req_ready_i  (),
-        .if_req_pc_o     (),
-
-        .if_resp_valid_i (),
-        .if_resp_ready_o (),
-        .if_resp_err_i   (),
-        .if_resp_instr_i (),
-
         // IF_ID
         .if_instr_o      (if_instr),
         .if_pc_o         (if_pc)
     );
 
+    
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 // 译码阶段     
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
     
-    if_id if_idu(
+    if_id if_id_u(
         .clk           (clk),
         .rst_n         (rst_n),
         .stall_i       (1'b0),
@@ -78,47 +69,47 @@ module riscx(
 
     // ID
     
-    decode idu(
-        .pc_i(if_id_pc),
-        .instr_i(if_id_instr),
+    decode id_u(
+        .pc_i          (if_id_pc),
+        .instr_i       (if_id_instr),
         
         // REG FILE
-        .dec_rs1_idx_o(dec_rs1_idx),
-        .dec_rs2_idx_o(dec_rs2_idx),
-        .dec_rs1_en_o(dec_rs1_en),
-        .dec_rs2_en_o(dec_rs2_en),
-        .rs1_rdata_i(rf_rs1_rdata),
-        .rs2_rdata_i(rf_rs1_rdata),
+        .dec_rs1_idx_o (dec_rs1_idx),
+        .dec_rs2_idx_o (dec_rs2_idx),
+        .dec_rs1_en_o  (dec_rs1_en),
+        .dec_rs2_en_o  (dec_rs2_en),
+        .rs1_rdata_i   (rf_rs1_rdata),
+        .rs2_rdata_i   (rf_rs1_rdata),
 
         // ID_EX
-        .dec_rd_idx_o(),
-        .dec_rd_en_o(),
+        .dec_rd_idx_o  (),
+        .dec_rd_en_o   (),
 
-        .dec_pc_o(),
-        .dec_instr_o(),
+        .dec_pc_o      (),
+        .dec_instr_o   (),
 
-        .dec_alu_op1_o(),
-        .dec_alu_op2_o(),
-        .dec_alu_fun_o()
+        .dec_alu_op1_o (),
+        .dec_alu_op2_o (),
+        .dec_alu_fun_o ()
     );
     // REG FILE
-    regfile regfileu(
-        .clk(clk),
-        .rst_n(rst_n),
+    regfile regfile_u(
+        .clk            (clk),
+        .rst_n          (rst_n),
 
-        .rd_en_i(),
-        .rd_idx_i(),
-        .rd_wdata_i(),
+        .rd_en_i        (),
+        .rd_idx_i       (),
+        .rd_wdata_i     (),
 
-        .rs1_en_i(dec_rs1_en),
-        .rs2_en_i(dec_rs2_en),
-        .rs1_idx_i(dec_rs1_idx),
-        .rs2_idx_i(dec_rs2_idx),
+        .rs1_en_i       (dec_rs1_en),
+        .rs2_en_i       (dec_rs2_en),
+        .rs1_idx_i      (dec_rs1_idx),
+        .rs2_idx_i      (dec_rs2_idx),
 
-        .rs1_rdata_o(rf_rs1_rdata),
-        .rs2_rdata_o(rf_rs2_rdata),
+        .rs1_rdata_o    (rf_rs1_rdata),
+        .rs2_rdata_o    (rf_rs2_rdata),
         
-        .rs1_x1_rdata_o()
+        .rs1_x1_rdata_o ()
     );
 
 endmodule

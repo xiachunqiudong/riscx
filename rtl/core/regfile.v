@@ -16,7 +16,7 @@ module regfile
 
     // from write back
     input                      rd_en_i,
-    input [`REG_IDX_WIDTH:0]   rd_idx_i,
+    input [`REG_IDX_WIDTH-1:0] rd_idx_i,
     input [`XLEN-1:0]          rd_wdata_i,
     
     // from decode 
@@ -43,7 +43,7 @@ module regfile
                 reg_data[rd_idx_i] <= `XLEN'b0;
             end
             // 写使能有效并且写入index != x0
-        end else if(rd_en_i & rd_idx_i != `REG_X0) begin
+        end else if(rd_en_i & (rd_idx_i != `REG_X0)) begin
             reg_data[rd_idx_i] <= rd_wdata_i;
         end
     end
@@ -51,7 +51,7 @@ module regfile
     // READ RS1
     always @(*) begin: rs1_read
         // 如果读X0寄存器或者读使能无效直接返回0
-        if(rs1_idx_i == `REG_X0 | ~rs1_en_i) begin
+        if((rs1_idx_i == `REG_X0) | ~rs1_en_i) begin
             rs1_rdata_o = `XLEN'b0;
         end else begin
             rs1_rdata_o = reg_data[rs1_idx_i];
@@ -61,7 +61,7 @@ module regfile
     // READ RS2
     always @(*) begin: rs2_read
         // 如果读X0寄存器或者读使能无效直接返回0
-        if(rs2_idx_i == `REG_X0 | ~rs2_en_i) begin
+        if((rs2_idx_i == `REG_X0) | ~rs2_en_i) begin
             rs2_rdata_o = `XLEN'b0;
         end else begin
             rs2_rdata_o = reg_data[rs2_idx_i];
