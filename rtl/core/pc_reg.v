@@ -3,8 +3,9 @@
 module pc_reg(
     input                  clk,
     input                  rst_n,
-    input  [`PC_WIDTH-1:0] pc_next_i,
     input                  stall_i,
+    
+    input  [`PC_WIDTH-1:0] pc_next_i,
     output [`PC_WIDTH-1:0] pc_o
 );
 

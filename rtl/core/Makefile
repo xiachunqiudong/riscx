@@ -1,6 +1,6 @@
 include rule.mk
 
-obj = regfile
+obj = riscx
 
 	
 

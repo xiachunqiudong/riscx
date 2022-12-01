@@ -3,8 +3,10 @@
 `define DISABLE 1'b0
 `define ENABLE  1'b1
 
+// REG FILE
 `define REG_IDX_WIDTH 5
 `define XLEN 32
+`define REG_X0        5'b0
 
 `define INSTR_WIDTH 32
 `define PC_WIDTH 32

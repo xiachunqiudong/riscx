@@ -7,12 +7,12 @@ module dff_lr
     parameter DW = 32
 )
 (
-    input          clk,
-    input          rst_n,
-    input          ld_en,
-    input [DW-1:0] din,
-    input [DW-1:0] qout
-)
+    input           clk,
+    input           rst_n,
+    input           ld_en,
+    input  [DW-1:0] din,
+    output [DW-1:0] qout
+);
 
     reg [DW-1:0] qout_r;
 
@@ -20,7 +20,7 @@ module dff_lr
 
     always @(posedge clk or negedge rst_n) begin
         if(rst_n)
-            qout_r <= DW'b0;
+            qout_r <= 0;
         else if(ld_en)
             qout_r <= din;
     end

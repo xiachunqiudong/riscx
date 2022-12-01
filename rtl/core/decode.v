@@ -1,34 +1,29 @@
 `include "defines.v"
 
 // INSTRUCTION FETCH
-// 1. 解析rs1_idx rs2_idx rd_idx
-// 2. 解析立即数
-// 3. 根据rs1_idx rs2_idx 从regfile中取出rs1_rdata rs2_rdata
-// 4. 确定alu_op1, alu_op2, alu_fun
 
 module decode(
-    // from if_id
-    input      [`PC_WIDTH-1:o]       pc_i,
-    input      [`INSTR_WIDTH-1:0]    instr_i,
+    // from if_id_reg
+    input      [`PC_WIDTH-1:o]      pc_i,
+    input      [`INSTR_WIDTH-1:0]   instr_i,
 
     // to REG FILE
     output reg [`REG_IDX_WIDTH-1:0] dec_rs1_idx_o,
     output reg [`REG_IDX_WIDTH-1:0] dec_rs2_idx_o, 
     output reg                      dec_rs1_en_o, // 是否读rs1
     output reg                      dec_rs2_en_o, // 是否读rs2
+
     // from REG FILE
-    input      [`XLEN-1:0]          rs1_rdata_i,
-    input      [`XLEN-1:0]          rs2_rdata_i,
+    input      [`XLEN-1:0]           rs1_rdata_i,
+    input      [`XLEN-1:0]           rs2_rdata_i,
     
     // to ID_EX
-    output     [`PC_WIDTH-1:0]      dec_pc_o,
-    output     [`INSTR_WIDTH-1:0]   dec_instr_o,
-    // 立即数 
-    output     [`XLEN]              dec_imm_o,
-    // for write back
     output reg [`REG_IDX_WIDTH-1:0] dec_rd_idx_o,
     output reg                      dec_rd_en_o,  // 是否写rd
-    // for alu
+
+    output     [`PC_WIDTH-1:0]      dec_pc_o,
+    output     [`INSTR_WIDTH-1:0]   dec_instr_o,
+    
     output reg [`XLEN-1:0]          dec_alu_op1_o,
     output reg [`XLEN-1:0]          dec_alu_op2_o,
     output reg [3:0]                dec_alu_fun_o
@@ -50,66 +45,56 @@ module decode(
     assign dec_rd_idx_o  = rd;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-//  rs1_idx rs2_idx rd_idx imm
+//  rs1_en rs2_en rd_en imm
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+
+    reg [`XLEN-1:0]          dec_imm_o,
     
     // 所有立即数都是符号扩展的
-    reg [`XLEN-1:0]          dec_imm_o; // 立即数    
-    
+    // rs1 rs2 rd 读写使能 && imm解析
     always @(*) begin
-        // 默认值3
-        dec_rs1_en_o = 1'b0;
-        dec_rs2_en_o = 1'b0;
-        dec_rd_en_o  = 1'b0;
-        dec_imm_o = `XLEN'b0;  
-        
         case(opcode)
-            // I type
             `INSTR_ALI, `INSTR_LD, `INSTR_JALR: begin
                 dec_rs1_en_o = 1'b1;
                 dec_rs2_en_o = 1'b0;
                 dec_rd_en_o  = 1'b1;
-                dec_imm_o = { {20{instr_i[31]}}, instr_i[31:20] };
+                dec_imm_o    = { {20{instr_i[31]}}, instr_i[31:20] };
             end
-            // R type
             `INSTR_AL: begin
                 dec_rs1_en_o = 1'b1;
                 dec_rs2_en_o = 1'b1;
-                dec_rd_en_o  = 1'b1;            
+                dec_rd_en_o  = 1'b1;
+                dec_imm_o    = `XLEN'b0;               
             end
             `INSTR_BXX: begin
                 dec_rs1_en_o = 1'b1;
                 dec_rs2_en_o = 1'b1;
                 dec_rd_en_o  = 1'b0;
-                dec_imm_o = { {19{instr_i[31]}}, instr_i[31], instr_i[7], instr_i[30:25], instr_i[11:8], 1'b0 };
+                dec_imm_o    = { {19{instr_i[31]}}, instr_i[31], instr_i[7], instr_i[30:25], instr_i[11:8], 1'b0 };
             end
             `INSTR_JAL: begin
                 dec_rs1_en_o = 1'b0;
                 dec_rs2_en_o = 1'b0;
                 dec_rd_en_o  = 1'b1;
-                dec_imm_o = { {11{instr_i[31]}}, instr_i[31], instr_i[19:12], instr_i[20], instr_i[30:21], 1'b0};
+                dec_imm_o    = { {11{instr_i[31]}}, instr_i[31],   instr_i[19:12], instr_i[20],    instr_i[30:21], 1'b0};
             end
-            `INSTR_LUI: begin
+            `INSTR_LUI, `INSTR_AUIPC: begin
                 dec_rs1_en_o = 1'b0;
                 dec_rs2_en_o = 1'b0;
                 dec_rd_en_o  = 1'b1;
-                dec_imm_o = { instr_i[31:12], 12'b0 };
-            end
-            `INSTR_AUIPC: begin
-                dec_rs1_en_o = 1'b0;
-                dec_rs2_en_o = 1'b0;
-                dec_rd_en_o  = 1'b1;
-                dec_imm_o = { instr_i[31:12], 12'b0 };
+                dec_imm_o    = { instr_i[31:12], 12'b0 };
             end
             `INSTR_CSR: begin
                 if(fun3[2]) begin // CSRI
                     dec_rs1_en_o = 1'b0;
                     dec_rs2_en_o = 1'b0;
                     dec_rd_en_o  = 1'b1;
+                    dec_imm_o = `XLEN'b0;  
                 end esle if begin // CSR
                     dec_rs1_en_o = 1'b1;
                     dec_rs2_en_o = 1'b0;
                     dec_rd_en_o  = 1'b1;
+                    dec_imm_o = `XLEN'b0;  
                 end
             end
             default: begin
@@ -122,14 +107,11 @@ module decode(
     end
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-// ALU_OP1 ALU_OP2 ALU_FUN
+// alu_op1 alu_op2 alu_fun
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+
     always @(*) begin
-        dec_alu_op1_o = `XLEN'b0;
-        dec_alu_op2_o = `XLEN'b0;
-        dec_alu_fun_o = `ALU_FUN_ADD;
         case(opcode)
-            // ALI
             `INSTR_ALI: begin
                 dec_alu_op1_o = rs1_rdata_i;
                 dec_alu_op2_o = dec_imm_o;

@@ -22,7 +22,7 @@ module fetch_mini_dec(
 
     // imm 符号扩展到XLEN位
     // bxx和jal需要将立即数左移一位
-    wire [`XLEN-1:0] bjp_imm_bxx  = { {19{instr_i[31]}}, instr_i[31], instr_i[7],     instr_i[30:25], instr_i[11:8],  1'b0 };
+    wire [`XLEN-1:0] bjp_imm_bxx  = { {19{instr_i[31]}}, instr_i[31],   instr_i[7],     instr_i[30:25], instr_i[11:8],  1'b0 };
     wire [`XLEN-1:0] bjp_imm_jal  = { {11{instr_i[31]}}, instr_i[31],   instr_i[19:12], instr_i[20],    instr_i[30:21], 1'b0};
     wire [`XLEN-1:0] bjp_imm_jalr = { {20{instr_i[31]}}, instr_i[31:20]};
 

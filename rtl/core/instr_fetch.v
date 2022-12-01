@@ -36,6 +36,8 @@ module instr_fetch(
     output [`PC_WIDTH-1:0]    if_pc_o
 );
 
+    assign if_pc_o = pc_i;
+
     wire [`INSTR_WIDTH-1:0] instr = if_resp_instr_i;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//

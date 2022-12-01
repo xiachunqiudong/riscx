@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <iostream>
+
+using namespace std;
 
 vluint64_t main_time = 0;  //initial 仿真时间
 
@@ -15,10 +18,13 @@ double sc_time_stamp()
 int main(int argc, char** argv, char** env) {
     VerilatedContext* contextp = new VerilatedContext;
     contextp->commandArgs(argc, argv);
+    
     Vriscx* riscx = new Vriscx{contextp};
+    
     //VCD波形设置  start
     Verilated::traceEverOn(true);
     VerilatedVcdC* tfp = new VerilatedVcdC;
+    
     riscx->trace(tfp, 0);
     tfp->open("wave.vcd");
     //VCD波形设置  end
@@ -33,14 +39,20 @@ int main(int argc, char** argv, char** env) {
         riscx->eval();
         
         printf("clk = %d, rst_n = %d\n", clk, rst_n);
-        
+        // if
+
+        //printf("pc = %d, pc_next = %d, instr = %d/n"
+        //, riscx->if_pc, riscx->if_pc_next, riscx->if_instr);
         //contextp->timeInc(1);
         tfp->dump(main_time);
         main_time++;
         clk = 1 - clk;
     }
+    
+    // close
     delete riscx;
     tfp->close();	
     delete contextp;
+    
     return 0;
 }

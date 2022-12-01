@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vregfile__Syms.h"
-#include "Vregfile.h"
-#include "Vregfile___024root.h"
+#include "Vriscx__Syms.h"
+#include "Vriscx.h"
+#include "Vriscx___024root.h"
 
 // FUNCTIONS
-Vregfile__Syms::~Vregfile__Syms()
+Vriscx__Syms::~Vriscx__Syms()
 {
 }
 
-Vregfile__Syms::Vregfile__Syms(VerilatedContext* contextp, const char* namep,Vregfile* modelp)
+Vriscx__Syms::Vriscx__Syms(VerilatedContext* contextp, const char* namep,Vriscx* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp(modelp)

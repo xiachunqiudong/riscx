@@ -2,9 +2,9 @@
 # DESCRIPTION: Verilator output: Makefile for building Verilated archive or executable
 #
 # Execute this makefile from the object directory:
-#    make -f Vregfile.mk
+#    make -f Vriscx.mk
 
-default: Vregfile
+default: Vriscx
 
 ### Constants...
 # Perl executable (from $PERL)
@@ -30,9 +30,9 @@ VM_SC_TARGET_ARCH = linux
 
 ### Vars...
 # Design prefix (from --prefix)
-VM_PREFIX = Vregfile
+VM_PREFIX = Vriscx
 # Module prefix (from --prefix)
-VM_MODPREFIX = Vregfile
+VM_MODPREFIX = Vriscx
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 
@@ -41,7 +41,7 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-	regfile_main \
+	riscx_main \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -50,18 +50,18 @@ VM_USER_DIR = \
 
 ### Default rules...
 # Include list of all generated classes
-include Vregfile_classes.mk
+include Vriscx_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-regfile_main.o: regfile_main.cpp
+riscx_main.o: riscx_main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
-Vregfile: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
+Vriscx: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
 	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
 
 
