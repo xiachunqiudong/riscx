@@ -19,14 +19,14 @@ module instr_fetch(
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 
     // REQ CHANNEL
-    output                  if_req_valid_o,
-    input                   if_req_ready_i,
-    output [`PC_WIDTH-1:0]  if_req_pc_o,
+    output                    if_req_valid_o,
+    input                     if_req_ready_i,
+    output [`PC_WIDTH-1:0]    if_req_pc_o,
     // RESP CHANNEL
-    input if_resp_valid_i,
-    output if_resp_ready_o,
-    input if_resp_err_i,
-    input [`INSTR_WIDTH-1:0] if_resp_instr_i,
+    input                     if_resp_valid_i,
+    output                    if_resp_ready_o,
+    input                     if_resp_err_i,
+    input [`INSTR_WIDTH-1:0]  if_resp_instr_i,
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 // TO IF_ID_REG
@@ -41,13 +41,12 @@ module instr_fetch(
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 // 部分译码        
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-    
-    wire dec_bjp;
-    wire dec_bxx;
-    wire dec_jal;
-    wire dec_jalr;
+    wire                      dec_bjp;
+    wire                      dec_bxx;
+    wire                      dec_jal;
+    wire                      dec_jalr;
     wire [`REG_IDX_WIDTH-1:0] dec_jalr_rs1_idx;
-    wire [`XLEN-1:0] dec_bjp_imm;
+    wire [`XLEN-1:0]          dec_bjp_imm;
 
     fetch_mini_dec fmd_1(
         .instr_i            (instr),
@@ -90,8 +89,6 @@ module instr_fetch(
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 //  PC生成 产生下一周期的PC
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-    
-    
     reg [`PC_WIDTH-1:0] pc_add_op1;
     reg [`PC_WIDTH-1:0] pc_add_op2;
     

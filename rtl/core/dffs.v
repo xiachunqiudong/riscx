@@ -21,7 +21,7 @@ module dff_lr
     always @(posedge clk or negedge rst_n) begin
         if(rst_n)
             qout_r <= DW'b0;
-        else 
+        else if(ld_en)
             qout_r <= din;
     end
     
