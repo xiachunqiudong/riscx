@@ -17,7 +17,13 @@ module riscx(
     wire [`INSTR_WIDTH-1:0] if_id_instr;
 
     // from id to regfile
-
+    wire dec_rs1_en;
+    wire dec_rs2_en;
+    wire [`REG_IDX_WIDTH-1:0] dec_rs1_idx;
+    wire [`REG_IDX_WIDTH-1:0] dec_rs2_idx;
+    
+    wire [`XLEN-1:0] rf_rs1_rdata;
+    wire [`XLEN-1:0] rf_rs2_rdata;
 
     // from id to id_ex
     
@@ -77,12 +83,12 @@ module riscx(
         .instr_i(if_id_instr),
         
         // REG FILE
-        .dec_rs1_idx_o(),
-        .dec_rs2_idx_o(),
-        .dec_rs1_en_o(),
-        .dec_rs2_en_o(),
-        .rs1_rdata_i(),
-        .rs2_rdata_i(),
+        .dec_rs1_idx_o(dec_rs1_idx),
+        .dec_rs2_idx_o(dec_rs2_idx),
+        .dec_rs1_en_o(dec_rs1_en),
+        .dec_rs2_en_o(dec_rs2_en),
+        .rs1_rdata_i(rf_rs1_rdata),
+        .rs2_rdata_i(rf_rs1_rdata),
 
         // ID_EX
         .dec_rd_idx_o(),
@@ -96,6 +102,23 @@ module riscx(
         .dec_alu_fun_o()
     );
     // REG FILE
+    regfile regfileu(
+        .clk(clk),
+        .rst_n(rst_n),
 
+        .rd_en_i(),
+        .rd_idx_i(),
+        .rd_wdata_i(),
+
+        .rs1_en_i(dec_rs1_en),
+        .rs2_en_i(dec_rs2_en),
+        .rs1_idx_i(dec_rs1_idx),
+        .rs2_idx_i(dec_rs2_idx),
+
+        .rs1_rdata_o(rf_rs1_rdata),
+        .rs2_rdata_o(rf_rs2_rdata),
+        
+        .rs1_x1_rdata_o()
+    );
 
 endmodule

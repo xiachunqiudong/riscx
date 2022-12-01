@@ -14,8 +14,8 @@ module decode(
     output reg                      dec_rs2_en_o, // 是否读rs2
 
     // from REG FILE
-    input      [`XLEN-1:0]           rs1_rdata_i,
-    input      [`XLEN-1:0]           rs2_rdata_i,
+    input      [`XLEN-1:0]          rs1_rdata_i,
+    input      [`XLEN-1:0]          rs2_rdata_i,
     
     // to ID_EX
     output reg [`REG_IDX_WIDTH-1:0] dec_rd_idx_o,
