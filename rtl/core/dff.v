@@ -2,7 +2,7 @@
 // D触发器
 // 带加载使能以及复位信号
 // 复位值为0
-module dff_lr
+module dff
 #(
     parameter DW        = 32,
     parameter RESET_VAL = 0

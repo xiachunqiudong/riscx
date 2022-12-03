@@ -18,15 +18,15 @@ module decode(
     input      [`XLEN-1:0]          rs2_rdata_i,
     
     // to ID_EX
-    output reg [`REG_IDX_WIDTH-1:0] dec_rd_idx_o,
-    output reg                      dec_rd_en_o,  // 是否写rd
-
     output     [`PC_WIDTH-1:0]      dec_pc_o,
     output     [`INSTR_WIDTH-1:0]   dec_instr_o,
-    
+
     output reg [`XLEN-1:0]          dec_alu_op1_o,
     output reg [`XLEN-1:0]          dec_alu_op2_o,
-    output reg [3:0]                dec_alu_fun_o
+    output reg [3:0]                dec_alu_fun_o,
+
+    output reg [`REG_IDX_WIDTH-1:0] dec_rd_idx_o,
+    output reg                      dec_rd_en_o  // 是否写rd
 );
 
 
