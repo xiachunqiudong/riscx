@@ -4,12 +4,13 @@
 // 复位值为0
 module dff_lr
 #(
-    parameter DW = 32
+    parameter DW        = 32,
+    parameter RESET_VAL = 0
 )
 (
     input           clk,
     input           rst_n,
-    input           ld_en,
+    input           wen,
     input  [DW-1:0] din,
     output [DW-1:0] qout
 );
@@ -20,8 +21,8 @@ module dff_lr
 
     always @(posedge clk or negedge rst_n) begin
         if(~rst_n)
-            qout_r <= 0;
-        else if(ld_en)
+            qout_r <= RESET_VAL;
+        else if(wen)
             qout_r <= din;
     end
     
