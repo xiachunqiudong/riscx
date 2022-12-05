@@ -3,22 +3,21 @@
 module pc_reg(
     input                  clk,
     input                  rst_n,
+    // 暂停时钟寄存器
     input                  stall_i,
+    // 冲刷流水线
+    input                  pipe_flush_i,
+    input  [`PC_WIDTH-1:0] pipe_flush_pc_i,
     
     input  [`PC_WIDTH-1:0] pc_next_i,
     output [`PC_WIDTH-1:0] pc_o
 );
 
-    reg [`PC_WIDTH-1:0] pc_r;
 
-    always @(posedge clk or negedge rst_n) begin
-        if(~rst_n) // 复位
-            pc_r <= `PC_WIDTH'b0;
-        else if(stall_i) // 暂停信号
-            pc_r <= pc_r;
-        else
-            pc_r <= pc_next_i;
-    end
-    assign pc_o = pc_r;
+    wire [`PC_WIDTH-1:0] pc_din = pipe_flush_i ? pipe_flush_pc_i : pc_next_i;
+
+    wire wen = ~stall_i;
+
+    dff #(.DW(`PC_WIDTH), .RESET_VAL(0)) pc_dff(.clk(clk), .rst_n(rst_n), .wen(wen), .din(pc_din), .qout(pc_o));
 
 endmodule

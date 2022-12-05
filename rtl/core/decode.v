@@ -1,12 +1,17 @@
 `include "defines.v"
 
 // INSTRUCTION FETCH
+// 1. 译码出 rs1_idx, rs2_idx, rd_idx, opcode, fun3, fun7
+// 2. 根据opcode, fun3, fun7 得出 rs1_en, rs2_en, rd_en, imm
+// 3. 从寄存器文件中取出 源操作数
+//
 
 module decode(
     // from if_id_reg
     input      [`PC_WIDTH-1:0]      pc_i,
     input      [`INSTR_WIDTH-1:0]   instr_i,
 
+    // 读取源操作数
     // to REG FILE
     output reg [`REG_IDX_WIDTH-1:0] dec_rs1_idx_o,
     output reg [`REG_IDX_WIDTH-1:0] dec_rs2_idx_o, 
@@ -21,9 +26,9 @@ module decode(
     output     [`PC_WIDTH-1:0]      dec_pc_o,
     output     [`INSTR_WIDTH-1:0]   dec_instr_o,
 
-    output reg [`XLEN-1:0]          dec_alu_op1_o,
-    output reg [`XLEN-1:0]          dec_alu_op2_o,
-    output reg [3:0]                dec_alu_fun_o,
+    output     [`XLEN-1:0]          dec_rs1_rdata_o,
+    output     [`XLEN-1:0]          dec_rs2_rdata_o,
+    output reg [`XLEN-1:0]          dec_imm_o,
 
     output reg [`REG_IDX_WIDTH-1:0] dec_rd_idx_o,
     output reg                      dec_rd_en_o  // 是否写rd
@@ -48,8 +53,9 @@ module decode(
 //  rs1_en rs2_en rd_en imm
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 
-    reg [`XLEN-1:0]          dec_imm_o;
-    
+    assign dec_rs1_rdata_o = rs1_rdata_i;
+    assign dec_rs2_rdata_o = rs2_rdata_i;
+
     // 所有立即数都是符号扩展的
     // rs1 rs2 rd 读写使能 && imm解析
     always @(*) begin
@@ -102,133 +108,6 @@ module decode(
                 dec_rs2_en_o = 1'b0;
                 dec_rd_en_o  = 1'b0;
                 dec_imm_o = `XLEN'b0;  
-            end
-        endcase
-    end
-
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-// alu_op1 alu_op2 alu_fun
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-
-    always @(*) begin
-        case(opcode)
-            `INSTR_ALI: begin
-                dec_alu_op1_o = rs1_rdata_i;
-                dec_alu_op2_o = dec_imm_o;
-                case(fun3)
-                    3'b000: begin // ADDI
-                        dec_alu_fun_o = `ALU_FUN_ADD;
-                    end
-                    3'b001: begin // SLLI
-                        dec_alu_fun_o = `ALU_FUN_SLL;
-                    end
-                    3'b010: begin // SLTI
-                        dec_alu_fun_o = `ALU_FUN_SUB;
-                    end
-                    3'b011: begin // SLTIU
-                        dec_alu_fun_o = `ALU_FUN_SUB_U;
-                    end
-                    3'b100: begin // XORI
-                        dec_alu_fun_o = `ALU_FUN_XOR;
-                    end
-                    3'b101: begin // SRLI or SRAI
-                        dec_alu_fun_o = dec_imm_o[10] ? `ALU_FUN_SRA : `ALU_FUN_SRL;
-                    end
-                    3'b110: begin // ORI
-                        dec_alu_fun_o = `ALU_FUN_OR;
-                    end
-                    3'b111: begin // ANDI
-                        dec_alu_fun_o = `ALU_FUN_AND;
-                    end
-                    default: begin
-                        dec_alu_fun_o = `ALU_FUN_ADD;
-                    end
-                endcase
-            end
-            `INSTR_AL: begin
-                dec_alu_op1_o = rs1_rdata_i;
-                dec_alu_op2_o = rs2_rdata_i;
-                case(fun3)
-                    3'b000: begin // ADD
-                        dec_alu_fun_o = fun7[5] ? `ALU_FUN_SUB : `ALU_FUN_ADD;
-                    end
-                    3'b001: begin // SLL
-                        dec_alu_fun_o = `ALU_FUN_SLL;
-                    end
-                    3'b010: begin // SLT
-                        dec_alu_fun_o = `ALU_FUN_SUB;
-                    end
-                    3'b011: begin // SLTU
-                        dec_alu_fun_o = `ALU_FUN_SUB_U;
-                    end
-                    3'b100: begin // XOR
-                        dec_alu_fun_o = `ALU_FUN_XOR;
-                    end
-                    3'b101: begin // SRL or SRA
-                        dec_alu_fun_o = fun7[5] ? `ALU_FUN_SRA : `ALU_FUN_SRL;
-                    end
-                    3'b110: begin // OR
-                        dec_alu_fun_o = `ALU_FUN_OR;
-                    end
-                    3'b111: begin // AND
-                        dec_alu_fun_o = `ALU_FUN_AND;
-                    end
-                    default: begin 
-                        dec_alu_fun_o = `ALU_FUN_ADD;
-                    end
-                endcase           
-            end
-            `INSTR_BXX: begin
-                dec_alu_op1_o = rs1_rdata_i;
-                dec_alu_op2_o = rs2_rdata_i;
-                case(fun3)
-                3'b000: begin // BEQ
-                    dec_alu_fun_o = `ALU_FUN_XOR;
-                end
-                3'b001: begin // BNE
-                    dec_alu_fun_o = `ALU_FUN_XOR;
-                end
-                3'b100: begin // BLT
-                    dec_alu_fun_o = `ALU_FUN_SUB;
-                end
-                3'b101: begin // BGE
-                    dec_alu_fun_o = `ALU_FUN_SUB;
-                end
-                3'b110: begin // BLTU
-                    dec_alu_fun_o = `ALU_FUN_SUB_U;
-                end
-                3'b111: begin // BGEU
-                    dec_alu_fun_o = `ALU_FUN_SUB_U;
-                end
-                default: begin
-                    dec_alu_fun_o = `ALU_FUN_ADD;
-                end
-                endcase
-            end
-            `INSTR_JAL: begin // 取指阶段就需要知道
-                dec_alu_op1_o = pc_i;
-                dec_alu_op2_o = dec_imm_o;
-                dec_alu_fun_o = `ALU_FUN_ADD;
-            end
-            `INSTR_JALR: begin // 取指阶段就需要知道
-                dec_alu_op1_o = rs1_rdata_i;
-                dec_alu_op2_o = dec_imm_o;
-                dec_alu_fun_o = `ALU_FUN_ADD;
-            end
-            `INSTR_LUI: begin
-                dec_alu_op1_o = `XLEN'b0;
-                dec_alu_op2_o = dec_imm_o;
-                dec_alu_fun_o = `ALU_FUN_ADD;
-            end
-            `INSTR_AUIPC: begin
-                dec_alu_op1_o = pc_i;
-                dec_alu_op2_o = dec_imm_o;
-                dec_alu_fun_o = `ALU_FUN_ADD;
-            end
-            default: begin
-                dec_alu_op1_o = `XLEN'b0;
-                dec_alu_op2_o = `XLEN'b0;
-                dec_alu_fun_o = `ALU_FUN_ADD;
             end
         endcase
     end

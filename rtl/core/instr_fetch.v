@@ -16,6 +16,7 @@ module instr_fetch(
     output [`PC_WIDTH-1:0]    if_pc_next_o,
 
     // IF_ID
+    output                    if_prdt_taken_o,
     output [`INSTR_WIDTH-1:0] if_instr_o,
     output [`PC_WIDTH-1:0]    if_pc_o
 );
@@ -83,6 +84,7 @@ module instr_fetch(
     // 1. jal and jalr 直接跳转
     // 2. bxx 向后预测为跳转
     wire prdt_taken = ((dec_jal | dec_jalr) | (dec_bxx & dec_bjp_imm[31]));
+    assign if_prdt_taken_o = prdt_taken;
    
    // X0直接返回0
    // X1用于函数调用返回 需要特殊优化

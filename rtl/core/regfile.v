@@ -53,6 +53,9 @@ module regfile
         // 如果读X0寄存器或者读使能无效直接返回0
         if((rs1_idx_i == `REG_X0) | ~rs1_en_i) begin
             rs1_rdata_o = `XLEN'b0;
+        // 寄存器内部前递
+        end else if(rs1_idx_i == rd_idx_i) begin
+            rs1_rdata_o = rd_wdata_i;
         end else begin
             rs1_rdata_o = reg_data[rs1_idx_i];
         end
@@ -63,6 +66,9 @@ module regfile
         // 如果读X0寄存器或者读使能无效直接返回0
         if((rs2_idx_i == `REG_X0) | ~rs2_en_i) begin
             rs2_rdata_o = `XLEN'b0;
+        // 寄存器内部前递
+        end else if(rs1_idx_i == rd_idx_i) begin
+            rs2_rdata_o = rd_wdata_i;
         end else begin
             rs2_rdata_o = reg_data[rs2_idx_i];
         end
