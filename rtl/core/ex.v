@@ -17,7 +17,7 @@ module ex(
     input  [`XLEN-1:0]          rs2_rdata_i,
     input  [`XLEN-1:0]          imm_i,
     
-    output [`XLEN-1:0]          ex_alu_ret_o,
+    output [`XLEN-1:0]          ex_alu_res_o,
     
     output                      ex_pipe_flush_o,
     output [`PC_WIDTH-1:0]      ex_pipe_flush_pc_o
@@ -32,9 +32,7 @@ module ex(
     wire [6:0] fun7   = instr_i[31:25];
     
     // ALU
-    reg [`XLEN] alu_ret;
-
-    assign alu_ret_o = alu_ret;
+    wire [`XLEN] alu_res_o;
 
     // al means algorithm and logic
     wire al    = (opcode == `INSTR_AL);
@@ -43,21 +41,103 @@ module ex(
     wire bxx   = (opcode == `INSTR_BXX);
     wire lui   = (opcode == `INSTR_LUI);
     wire auipc = (opcode == `INSTR_AUIPC);
-
-    wire op_add;
-    wire op_sub;
-    wire op_sll;
-    wire op_srl;
-    wire op_sra;
-    wire op_and;
-    wire op_or;
-    wire op_xor;
-
     
+    wire al_ali = al | ali;
 
+    // 具体的算数逻辑运算
+    wire fun_add     = (fun3 == 3'b000 & ~opcode[5]);
+    wire fun_sub     = (fun3 == 3'b000 &  opcode[5]);
+    wire fun_sll     = (fun3 == 3'b001);
+    wire fun_slt     = (fun3 == 3'b010);
+    wire fun_sltu    = (fun3 == 3'b011);
+    wire fun_xor     = (fun3 == 3'b100);
+    wire fun_srl     = (fun3 == 3'b101 & ~opcode[5]);
+    wire fun_sra     = (fun3 == 3'b101 &  opcode[5]);
+    wire fun_or      = (fun3 == 3'b110);
+    wire fun_and     = (fun3 == 3'b111);
+    
+    // op_xx 控制ALU输出结果
+    // 需要加法结果的指令:
+    // 1. add
+    // 2. addi
+    // 3. load/store
+    // 4. lui
+    // 5. auipc
+    wire op_add  = ((al_ali & fun_add) | ld_st | lui | auipc);
+    wire op_sub  = (al      & fun_sub);
+    wire op_sll  = (al_ali  & fun_sll);
+    wire op_srl  = (al_ali  & fun_srl);
+    wire op_sra  = (al_ali  & fun_sra);
+    wire op_and  = (al_ali  & fun_and);
+    wire op_or   = (al_ali  & fun_or);
+    wire op_xor  = (al_ali  & fun_xor);
+    wire op_slt  = (al_ali  & fun_slt);
+    wire op_sltu = (al_ali  & fun_sltu);
 
+    // al:    res = rs1 op rs2
+    // bxx:   res = rs1 -  rs2
+    // ali:   res = rs1 op imm
+    // ld/st: res = rs1 +  imm
+    // lui:   res = 0   +  imm
+    // auipc: res = pc  +  imm
 
+    // 操作数计算
+    wire [`XLEN-1:0] alu_op1;
+    wire [`XLEN-1:0] alu_op2;
+    
+    assign alu_op1 = lui ? `XLEN'b0 
+                   : auipc ? pc_i
+                   : rs1_rdata_i;
+    
+    assign alu_op2 = (al | bxx) ? rs2_rdata_i : imm_i;
 
+    // ALU
+    // 加法
+    wire [`XLEN-1:0] add_res;  
+    assign add_res = alu_op1 + alu_op2;
+    
+    // 减法
+    wire [`XLEN-1:0] sub_res;
+    assign sub_res = alu_op1 + ~alu_op2 + 1;
+    
+    // 逻辑左移
+    wire [`XLEN-1:0] sll_res;
+    // 逻辑右移
+    wire [`XLEN-1:0] srl_res; 
+    // 算数右移
+    wire [`XLEN-1:0] sra_res; 
+    // 与
+    wire [`XLEN-1:0] and_res;
+    assign and_res = alu_op1 & alu_op2;
+    
+    // 或
+    wire [`XLEN-1:0] or_res;
+    assign or_res = alu_op1 | alu_op2;
+
+    // 异或
+    wire [`XLEN-1:0] xor_res;
+    assign xor_res = alu_op1 ^ alu_op2;
+
+    // set less than 
+    // res = op1 < op2 ? 1 : 0;
+    wire [`XLEN-1:0] slt_res;
+    slt_res = {{`XLEN-1{0}}, lt};
+
+    // set less than unsigned
+    wire [`XLEN-1:0] sltu_res;
+    sltu_res = {{`XLEN-1{0}}, lt};
+
+    // alu结果并行多路选择器
+    assign ex_alu_res_o = ({`XLEN{op_add}}  & add_res) 
+                        | ({`XLEN{op_sub}}  & sub_res) 
+                        | ({`XLEN{op_sll}}  & sll_res) 
+                        | ({`XLEN{op_srl}}  & srl_res) 
+                        | ({`XLEN{op_sra}}  & sra_res) 
+                        | ({`XLEN{op_and}}  & and_res) 
+                        | ({`XLEN{op_or}}   & or_res) 
+                        | ({`XLEN{op_xor}}  & xor_res)
+                        | ({`XLEN{op_slt}}  & slt_res)
+                        | ({`XLEN{op_sltu}} & sltu_res);
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 //  BRANCH CALCULATE
@@ -74,26 +154,26 @@ module ex(
 
 
     // 如果异或结果有一位为1就说明操作数不相等
-    wire neq = (|xor_ret);
-    wire lt  = add_res[`XLEN-1];
+    wire neq = (|xor_res);
+    wire lt  = sub_res[`XLEN-1];
     
-    wire beq_ret  =  (beq  & ~neq);
-    wire bne_ret  =  (bne  &  neq);
-    wire blt_ret  =  (blt  &  lt );
-    wire bge_ret  =  (bge  & ~lt );
-    wire bltu_ret =  (bltu &  lt );
-    wire bgeu_ret =  (bgeu & ~lt );
+    wire beq_res  =  (beq  & ~neq);
+    wire bne_res  =  (bne  &  neq);
+    wire blt_res  =  (blt  &  lt );
+    wire bge_res  =  (bge  & ~lt );
+    wire bltu_res =  (bltu &  lt );
+    wire bgeu_res =  (bgeu & ~lt );
 
     // 分支指令结果
-    assign branch_ret = beq_ret
-                      | bne_ret
-                      | blt_ret
-                      | bge_ret
-                      | bltu_ret
-                      | bgeu_ret;
+    assign branch_res = beq_res
+                      | bne_res
+                      | blt_res
+                      | bge_res
+                      | bltu_res
+                      | bgeu_res;
 
     // 和分支预测对比 如果预测错误需要冲刷流水线
-    wire pipe_flush = (branch & (branch_ret ^ prdt_taken));
+    wire pipe_flush = (branch & (branch_res ^ prdt_taken));
     assign ex_pipe_flush_pc_op1 = pc_i;
     assign ex_pipe_flush_pc_op2 = prdt_taken ? `PC_WIDTH'd4 : imm_i;
     // 并行计算

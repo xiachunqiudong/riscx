@@ -42,15 +42,16 @@
 `define BLTU 3'b110
 `define BGEU 3'b111
 
-// ALU FUN
-`define ALU_FUN_ADD     4'd0
-`define ALU_FUN_SUB     4'd1
-`define ALU_FUN_SUB_U   4'd2
-`define ALU_FUN_SLL     4'd3
-`define ALU_FUN_SRL     4'd4
-`define ALU_FUN_SRA     4'd5
-`define ALU_FUN_AND     4'd6
-`define ALU_FUN_OR      4'd7
-`define ALU_FUN_XOR     4'd8
 
+// AL and ALI
+`define AL_FUN_ADD_SUB 3'b000
+// 逻辑左移
+`define AL_FUN_SLL     3'b001
+`define AL_FUN_SLT     3'b010
+`define AL_FUN_SLTU    3'b011
+`define AL_FUN_XOR     3'b100
+// 右移
+`define AL_FUN_SR      3'b101
+`define AL_FUN_OR      3'b110
+`define AL_FUN_AND     3'b111
 
