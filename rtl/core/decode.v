@@ -21,6 +21,11 @@ module decode(
     // from REG FILE
     input      [`XLEN-1:0]          rs1_rdata_i,
     input      [`XLEN-1:0]          rs2_rdata_i,
+
+    // from EX 前递
+    input [`REG_IDX_WIDTH-1:0]      ex_rd_idx_i,  
+    input                           ex_rd_en_i,   
+    input [`XLEN-1:0]               ex_rd_wdata_i,
     
     // to ID_EX
     output     [`PC_WIDTH-1:0]      dec_pc_o,
@@ -34,6 +39,32 @@ module decode(
     output reg                      dec_rd_en_o  // 是否写rd
 );
 
+    assign dec_instr_o = instr_i;
+    assign dec_pc_o    = pc_i;
+
+
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+//  前递操作
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+
+// 优先级: 
+// 1. ex_rd_wdata
+// 2. mem_rd_wdata
+// 3. reg_file
+
+    wire rs1_not_x0 = (dec_rs1_idx_o != `REG_X0);
+    wire rs2_not_x0 = (dec_rs2_idx_o != `REG_X0);
+    
+    // ex阶段写rd & 译码阶段读rs1 & rs1 != x0 & rs1 == rd
+    wire rs1_ex_fwd = ((ex_rd_en_i & dec_rs1_en_o & rs1_not_x0) & (dec_rs1_idx_o == ex_rd_idx_i));
+
+    assign dec_rs1_rdata_o = rs1_ex_fwd ? ex_rd_wdata_i : rs1_rdata_i;
+    
+    // ex阶段写rd & 译码阶段读rs2 & rs2 != x0 & rs2 == rd
+    wire rs2_ex_fwd = ((ex_rd_en_i & dec_rs2_en_o & rs2_not_x0) & (dec_rs2_idx_o == ex_rd_idx_i));
+    
+    assign dec_rs2_rdata_o = rs2_ex_fwd ? ex_rd_wdata_i : rs2_rdata_i;
+    
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 //  指令分解
@@ -52,9 +83,6 @@ module decode(
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 //  rs1_en rs2_en rd_en imm
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
-
-    assign dec_rs1_rdata_o = rs1_rdata_i;
-    assign dec_rs2_rdata_o = rs2_rdata_i;
 
     // 所有立即数都是符号扩展的
     // rs1 rs2 rd 读写使能 && imm解析

@@ -36,7 +36,7 @@ module id_ex(
     wire wen = ~stall_i;
 
     dff #(`PC_WIDTH     , 0) pc_dff        (clk, rst_n, wen, dec_pc_i,              id_ex_pc_o);
-    dff #(`INSTR_WIDTH  , 0) instr_dff     (clk, rst_n, wen, dec_instr_i,           id_ex_pc_o);
+    dff #(`INSTR_WIDTH  , 0) instr_dff     (clk, rst_n, wen, dec_instr_i,           id_ex_instr_o);
     
     dff #(`XLEN         , 0) alu_op1_dff   (clk, rst_n, wen, dec_rs1_rdata_i,       id_ex_rs1_rdata_o);
     dff #(`XLEN         , 0) alu_op2_dff   (clk, rst_n, wen, dec_rs2_rdata_i,       id_ex_rs2_rdata_o);

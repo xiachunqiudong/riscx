@@ -17,22 +17,31 @@ module ex(
     input  [`XLEN-1:0]          rs2_rdata_i,
     input  [`XLEN-1:0]          imm_i,
     
-    output [`XLEN-1:0]          ex_alu_res_o,
+    output [`XLEN-1:0]          ex_alu_res_o, // 内存地址 = rs1 + imm
     
     output                      ex_pipe_flush_o,
-    output [`PC_WIDTH-1:0]      ex_pipe_flush_pc_o
+    output [`PC_WIDTH-1:0]      ex_pipe_flush_pc_o,
+
+    // forward to id or go to wb
+    output [`REG_IDX_WIDTH-1:0] ex_rd_idx_o,  // 写回目的寄存器索引
+    output                      ex_rd_en_o,   // 是否写回alu的值
+    output [`XLEN-1:0]          ex_rd_wdata_o // 写回rd
 );
+
+
+    wire [6:0] opcode = instr_i[6:0];
+    wire [4:0] rd     = instr_i[11:7];
+    wire [2:0] fun3   = instr_i[14:12];
+    wire [6:0] fun7   = instr_i[31:25];
+
+    assign ex_rd_idx_o   = rd;
+    assign ex_rd_en_o    = (al_ali | lui | auipc);
+    assign ex_rd_wdata_o = ex_alu_res_o;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 //  ALU
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 
-    wire [6:0] opcode = instr_i[6:0];
-    wire [2:0] fun3   = instr_i[14:12];
-    wire [6:0] fun7   = instr_i[31:25];
-    
-    // ALU
-    wire [`XLEN] alu_res_o;
 
     // al means algorithm and logic
     wire al    = (opcode == `INSTR_AL);
@@ -121,11 +130,11 @@ module ex(
     // set less than 
     // res = op1 < op2 ? 1 : 0;
     wire [`XLEN-1:0] slt_res;
-    slt_res = {{`XLEN-1{0}}, lt};
+    assign slt_res = { {(`XLEN-1){1'b0}}, lt };
 
     // set less than unsigned
     wire [`XLEN-1:0] sltu_res;
-    sltu_res = {{`XLEN-1{0}}, lt};
+    assign sltu_res = { {(`XLEN-1){1'b0}}, lt };
 
     // alu结果并行多路选择器
     assign ex_alu_res_o = ({`XLEN{op_add}}  & add_res) 
@@ -165,18 +174,19 @@ module ex(
     wire bgeu_res =  (bgeu & ~lt );
 
     // 分支指令结果
-    assign branch_res = beq_res
-                      | bne_res
-                      | blt_res
-                      | bge_res
-                      | bltu_res
-                      | bgeu_res;
+    wire branch_res = beq_res
+                    | bne_res
+                    | blt_res
+                    | bge_res
+                    | bltu_res
+                    | bgeu_res;
 
     // 和分支预测对比 如果预测错误需要冲刷流水线
     wire pipe_flush = (branch & (branch_res ^ prdt_taken));
-    assign ex_pipe_flush_pc_op1 = pc_i;
-    assign ex_pipe_flush_pc_op2 = prdt_taken ? `PC_WIDTH'd4 : imm_i;
+
+    wire[`PC_WIDTH-1:0] pipe_flush_pc_op1 = pc_i;
+    wire[`PC_WIDTH-1:0] pipe_flush_pc_op2 = prdt_taken ? `PC_WIDTH'd4 : imm_i;
     // 并行计算
-    assign ex_pipe_flush_pc_o = ex_pipe_flush_pc_op1 + ex_pipe_flush_pc_op2;
+    assign ex_pipe_flush_pc_o = pipe_flush_pc_op1 + pipe_flush_pc_op2;
     
 endmodule

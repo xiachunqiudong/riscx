@@ -55,8 +55,14 @@ module riscx(
     wire                      id_ex_rd_en;   
     
     // from ex to pc_reg
-    wire                 ex_pipe_flush;
-    wire [`PC_WIDTH-1:0] ex_pipe_flush_pc;
+    wire                      ex_pipe_flush;
+    wire [`PC_WIDTH-1:0]      ex_pipe_flush_pc;
+
+    // from ex to ex_mem
+    wire [`XLEN-1:0]          ex_alu_res;
+    wire [`REG_IDX_WIDTH-1:0] ex_rd_idx;
+    wire                      ex_rd_en;
+    wire [`XLEN-1:0]          ex_rd_wdata;
 
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
@@ -118,6 +124,11 @@ module riscx(
         .dec_rs2_en_o    (dec_rs2_en),
         .rs1_rdata_i     (rf_rs1_rdata),
         .rs2_rdata_i     (rf_rs1_rdata),
+
+        // forward from ex
+        .ex_rd_idx_i     (ex_rd_idx),
+        .ex_rd_en_i      (ex_rd_en),
+        .ex_rd_wdata_i   (ex_rd_wdata),
 
         // ID_EX
         .dec_pc_o        (dec_pc),
@@ -186,6 +197,27 @@ module riscx(
         .id_ex_rd_en_o      (id_ex_rd_en),
 
         .id_ex_prdt_taken_o (id_ex_prdt_taken)
+    );
+
+    ex ex_u(
+        .pc_i(id_ex_pc),
+        .instr_i(id_ex_instr),
+        .prdt_taken(id_ex_prdt_taken),
+        
+        .rd_idx_i(id_ex_rd_idx),
+        .rd_en_i(id_ex_rd_en),
+        .rs1_rdata_i(id_ex_rs1_rdata),
+        .rs2_rdata_i(id_ex_rs2_rdata),
+        .imm_i(id_ex_imm),
+
+        .ex_alu_res_o(ex_alu_res),
+        
+        .ex_pipe_flush_o(ex_pipe_flush),
+        .ex_pipe_flush_pc_o(ex_pipe_flush_pc),
+
+        .ex_rd_idx_o(ex_rd_idx),
+        .ex_rd_en_o(ex_rd_en),
+        .ex_rd_wdata_o(ex_rd_wdata)
     );
 
 

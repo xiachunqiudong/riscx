@@ -25,8 +25,10 @@ VL_MODULE(Vriscx___024root) {
     // LOCAL SIGNALS
     CData/*0:0*/ riscx__DOT__if_id_prdt_taken;
     CData/*0:0*/ riscx__DOT__dec_rs1_en;
+    CData/*0:0*/ riscx__DOT__dec_rs2_en;
     CData/*0:0*/ riscx__DOT__dec_rd_en;
     CData/*0:0*/ riscx__DOT__ex_pipe_flush;
+    CData/*0:0*/ riscx__DOT__ex_rd_en;
     CData/*0:0*/ riscx__DOT__if_u__DOT__dec_bjp;
     CData/*0:0*/ riscx__DOT__if_u__DOT__prdt_taken;
     CData/*0:0*/ riscx__DOT__regfile_u__DOT__rd_en_i;
@@ -34,14 +36,11 @@ VL_MODULE(Vriscx___024root) {
     CData/*4:0*/ riscx__DOT__id_ex_u__DOT__rd_idx_dff__DOT__qout_r;
     CData/*0:0*/ riscx__DOT__id_ex_u__DOT__rd_en_dff__DOT__qout_r;
     CData/*0:0*/ riscx__DOT__id_ex_u__DOT__prdt_taken_dff__DOT__qout_r;
+    CData/*0:0*/ riscx__DOT__ex_u__DOT__al_ali;
+    CData/*0:0*/ riscx__DOT__ex_u__DOT__branch_res;
     IData/*31:0*/ riscx__DOT__rf_rs1_rdata;
-    IData/*31:0*/ riscx__DOT__rf_rs2_rdata;
-    IData/*31:0*/ riscx__DOT__dec_pc;
-    IData/*31:0*/ riscx__DOT__dec_instr;
     IData/*31:0*/ riscx__DOT__dec_imm;
-    IData/*31:0*/ riscx__DOT__id_ex_pc;
-    IData/*31:0*/ riscx__DOT__id_ex_instr;
-    IData/*31:0*/ riscx__DOT__ex_pipe_flush_pc;
+    IData/*31:0*/ riscx__DOT__ex_alu_res;
     IData/*31:0*/ riscx__DOT__pc_reg_u__DOT__pc_dff__DOT__qout_r;
     IData/*31:0*/ riscx__DOT__if_u__DOT__dec_bjp_imm;
     IData/*31:0*/ riscx__DOT__if_u__DOT__pc_add_op1;
@@ -56,6 +55,13 @@ VL_MODULE(Vriscx___024root) {
     IData/*31:0*/ riscx__DOT__id_ex_u__DOT__alu_op1_dff__DOT__qout_r;
     IData/*31:0*/ riscx__DOT__id_ex_u__DOT__alu_op2_dff__DOT__qout_r;
     IData/*31:0*/ riscx__DOT__id_ex_u__DOT__alu_fun_dff__DOT__qout_r;
+    IData/*31:0*/ riscx__DOT__ex_u__DOT__alu_op1;
+    IData/*31:0*/ riscx__DOT__ex_u__DOT__alu_op2;
+    IData/*31:0*/ riscx__DOT__ex_u__DOT__sub_res;
+    IData/*31:0*/ riscx__DOT__ex_u__DOT__sll_res;
+    IData/*31:0*/ riscx__DOT__ex_u__DOT__srl_res;
+    IData/*31:0*/ riscx__DOT__ex_u__DOT__sra_res;
+    IData/*31:0*/ riscx__DOT__ex_u__DOT__xor_res;
     VlUnpacked<CData/*7:0*/, 1024> riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr_mem;
     VlUnpacked<IData/*31:0*/, 31> riscx__DOT__regfile_u__DOT__reg_data;
 
