@@ -31,6 +31,8 @@ VL_MODULE(Vriscx___024root) {
     CData/*0:0*/ riscx__DOT__ex_rd_en;
     CData/*0:0*/ riscx__DOT__if_u__DOT__dec_bjp;
     CData/*0:0*/ riscx__DOT__if_u__DOT__prdt_taken;
+    CData/*0:0*/ riscx__DOT__id_u__DOT__rs1_mem_fwd;
+    CData/*0:0*/ riscx__DOT__id_u__DOT__rs2_mem_fwd;
     CData/*0:0*/ riscx__DOT__regfile_u__DOT__rd_en_i;
     CData/*4:0*/ riscx__DOT__regfile_u__DOT__rd_idx_i;
     CData/*4:0*/ riscx__DOT__id_ex_u__DOT__rd_idx_dff__DOT__qout_r;
@@ -38,6 +40,8 @@ VL_MODULE(Vriscx___024root) {
     CData/*0:0*/ riscx__DOT__id_ex_u__DOT__prdt_taken_dff__DOT__qout_r;
     CData/*0:0*/ riscx__DOT__ex_u__DOT__al_ali;
     CData/*0:0*/ riscx__DOT__ex_u__DOT__branch_res;
+    CData/*4:0*/ riscx__DOT__ex_mem_u__DOT__ex_rd_idx_dff__DOT__qout_r;
+    CData/*0:0*/ riscx__DOT__ex_mem_u__DOT__ex_rd_en_dff__DOT__qout_r;
     IData/*31:0*/ riscx__DOT__rf_rs1_rdata;
     IData/*31:0*/ riscx__DOT__dec_imm;
     IData/*31:0*/ riscx__DOT__ex_alu_res;
@@ -62,6 +66,10 @@ VL_MODULE(Vriscx___024root) {
     IData/*31:0*/ riscx__DOT__ex_u__DOT__srl_res;
     IData/*31:0*/ riscx__DOT__ex_u__DOT__sra_res;
     IData/*31:0*/ riscx__DOT__ex_u__DOT__xor_res;
+    IData/*31:0*/ riscx__DOT__ex_mem_u__DOT__pc_dff__DOT__qout_r;
+    IData/*31:0*/ riscx__DOT__ex_mem_u__DOT__instr_dff__DOT__qout_r;
+    IData/*31:0*/ riscx__DOT__ex_mem_u__DOT__alu_res_dff__DOT__qout_r;
+    IData/*31:0*/ riscx__DOT__ex_mem_u__DOT__ex_rd_wdata_dff__DOT__qout_r;
     VlUnpacked<CData/*7:0*/, 1024> riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr_mem;
     VlUnpacked<IData/*31:0*/, 31> riscx__DOT__regfile_u__DOT__reg_data;
 

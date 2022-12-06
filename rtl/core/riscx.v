@@ -65,6 +65,15 @@ module riscx(
     wire [`XLEN-1:0]          ex_rd_wdata;
 
 
+    // from ex_mem
+    wire [`PC_WIDTH-1:0]      ex_mem_pc;
+    wire [`INSTR_WIDTH-1:0]   ex_mem_instr;
+    wire [`XLEN-1:0]          ex_mem_alu_res;
+    wire [`REG_IDX_WIDTH-1:0] ex_mem_ex_rd_idx;
+    wire                      ex_mem_ex_rd_en;
+    wire [`XLEN-1:0]          ex_mem_ex_rd_wdata;
+
+
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 // 取指阶段     
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
@@ -129,6 +138,11 @@ module riscx(
         .ex_rd_idx_i     (ex_rd_idx),
         .ex_rd_en_i      (ex_rd_en),
         .ex_rd_wdata_i   (ex_rd_wdata),
+
+        // forword from mem
+        .ex_mem_ex_rd_idx_i(ex_mem_ex_rd_idx),
+        .ex_mem_ex_rd_en_i(ex_mem_ex_rd_en),
+        .ex_mem_ex_rd_wdata_i(ex_mem_ex_rd_wdata),
 
         // ID_EX
         .dec_pc_o        (dec_pc),
@@ -219,6 +233,34 @@ module riscx(
         .ex_rd_en_o(ex_rd_en),
         .ex_rd_wdata_o(ex_rd_wdata)
     );
+
+
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+// 访存阶段     
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+
+    ex_mem ex_mem_u(
+        .clk(clk),
+        .rst_n(rst_n),
+
+        .ex_pc_i(id_ex_pc),
+        .ex_instr_i(id_ex_instr),
+
+        .ex_alu_res_i(ex_alu_res),
+        .ex_rd_idx_i(ex_rd_idx),
+        .ex_rd_en_i(ex_rd_en),
+        .ex_rd_wdata_i(ex_rd_wdata),
+
+        .ex_mem_pc_o(ex_mem_pc),
+        .ex_mem_instr_o(ex_mem_instr),
+        .ex_mem_alu_res_o(ex_mem_alu_res),
+        .ex_mem_ex_rd_idx_o(ex_mem_ex_rd_idx),
+        .ex_mem_ex_rd_en_o(ex_mem_ex_rd_en),
+        .ex_mem_ex_rd_wdata_o(ex_mem_ex_rd_wdata)
+    );
+
+
+
 
 
 endmodule

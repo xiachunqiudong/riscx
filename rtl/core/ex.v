@@ -54,14 +54,13 @@ module ex(
     wire al_ali = al | ali;
 
     // 具体的算数逻辑运算
-    wire fun_add     = (fun3 == 3'b000 & ~opcode[5]);
-    wire fun_sub     = (fun3 == 3'b000 &  opcode[5]);
+    wire fun_add     = (fun3 == 3'b000);
     wire fun_sll     = (fun3 == 3'b001);
     wire fun_slt     = (fun3 == 3'b010);
     wire fun_sltu    = (fun3 == 3'b011);
     wire fun_xor     = (fun3 == 3'b100);
-    wire fun_srl     = (fun3 == 3'b101 & ~opcode[5]);
-    wire fun_sra     = (fun3 == 3'b101 &  opcode[5]);
+    wire fun_srl     = (fun3 == 3'b101 & ~fun7[5]);
+    wire fun_sra     = (fun3 == 3'b101 &  fun7[5]);
     wire fun_or      = (fun3 == 3'b110);
     wire fun_and     = (fun3 == 3'b111);
     
@@ -73,7 +72,8 @@ module ex(
     // 4. lui
     // 5. auipc
     wire op_add  = ((al_ali & fun_add) | ld_st | lui | auipc);
-    wire op_sub  = (al      & fun_sub);
+    // 只有r-r类型才有减法
+    wire op_sub  = (al      & fun_add & fun7[5]);
     wire op_sll  = (al_ali  & fun_sll);
     wire op_srl  = (al_ali  & fun_srl);
     wire op_sra  = (al_ali  & fun_sra);
