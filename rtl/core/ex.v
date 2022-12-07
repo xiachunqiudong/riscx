@@ -35,7 +35,7 @@ module ex(
     wire [6:0] fun7   = instr_i[31:25];
 
     assign ex_rd_idx_o   = rd;
-    assign ex_rd_en_o    = (al_ali | lui | auipc);
+    assign ex_rd_en_o    = (al_ali | lui | auipc| jal | jalr);
     assign ex_rd_wdata_o = ex_alu_res_o;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//

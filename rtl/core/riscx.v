@@ -80,6 +80,21 @@ module riscx(
     wire                      mem_rd_en;
     wire [`XLEN-1:0]          mem_rd_wdata;
 
+    // from mem_wb
+
+    wire [`PC_WIDTH-1:0]      mem_wb_pc;
+    wire [`REG_IDX_WIDTH-1:0] mem_wb_ex_rd_idx;
+    wire                      mem_wb_ex_rd_en;      
+    wire [`XLEN-1:0]          mem_wb_ex_rd_wdata;
+
+    wire [`REG_IDX_WIDTH-1:0] mem_wb_mem_rd_idx;
+    wire                      mem_wb_mem_rd_en;      
+    wire [`XLEN-1:0]          mem_wb_mem_rd_wdata;
+
+    // from wb
+    wire [`REG_IDX_WIDTH-1:0] wb_rd_idx;
+    wire                      wb_rd_en;
+    wire [`XLEN-1:0]          wb_rd_wdata;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 // 取指阶段     
@@ -172,9 +187,9 @@ module riscx(
         .clk            (clk),
         .rst_n          (rst_n),
 
-        .rd_en_i        (),
-        .rd_idx_i       (),
-        .rd_wdata_i     (),
+        .rd_en_i        (wb_rd_en),
+        .rd_idx_i       (wb_rd_idx),
+        .rd_wdata_i     (wb_rd_wdata),
 
         .rs1_en_i       (dec_rs1_en),
         .rs2_en_i       (dec_rs2_en),
@@ -285,8 +300,47 @@ module riscx(
         .mem_rd_wdata_o(mem_rd_wdata)
     );
 
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+// 写回阶段 
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//  
 
+    mem_wb mem_wb_u(
+        .clk                  (clk),
+        .rst_n                (rst_n),
 
+        .ex_mem_pc_i          (ex_mem_pc),
+        .ex_mem_ex_rd_idx_i   (ex_mem_ex_rd_idx),
+        .ex_mem_ex_rd_en_i    (ex_mem_ex_rd_en),
+        .ex_mem_ex_rd_wdata_i (ex_mem_ex_rd_wdata),
+
+        .mem_rd_idx_i         (mem_rd_idx),
+        .mem_rd_en_i          (mem_rd_en),
+        .mem_rd_wdata_i       (mem_rd_wdata),
+
+        .mem_wb_pc_o          (mem_wb_pc),
+        .mem_wb_ex_rd_idx_o   (mem_wb_ex_rd_idx),
+        .mem_wb_ex_rd_en_o    (mem_wb_ex_rd_en),
+        .mem_wb_ex_rd_wdata_o (mem_wb_ex_rd_wdata),
+
+        .mem_wb_mem_rd_idx_o  (mem_wb_mem_rd_idx),
+        .mem_wb_mem_rd_en_o   (mem_wb_mem_rd_en),
+        .mem_wb_mem_rd_wdata_o(mem_wb_mem_rd_wdata)
+    );
+
+    wb wb_u(
+        .mem_wb_pc_i          (mem_wb_pc),
+        .mem_wb_ex_rd_idx_i   (mem_wb_ex_rd_idx),
+        .mem_wb_ex_rd_en_i    (mem_wb_ex_rd_en),
+        .mem_wb_ex_rd_wdata_i (mem_wb_ex_rd_wdata),
+
+        .mem_wb_mem_rd_idx_i  (mem_wb_mem_rd_idx),
+        .mem_wb_mem_rd_en_i   (mem_wb_mem_rd_en),
+        .mem_wb_mem_rd_wdata_i(mem_wb_mem_rd_wdata),
+
+        .wb_rd_en_o(wb_rd_en),
+        .wb_rd_idx_o(wb_rd_idx),
+        .wb_rd_wdata_o(wb_rd_wdata)
+    );
 
 
 endmodule

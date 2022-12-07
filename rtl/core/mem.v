@@ -25,6 +25,18 @@ module mem(
     // load rd = MEM[rs1 + imm]
     assign mem_rd_en_o = ld;
     
+    // load
+    // lb lbu
+    // lh hu
+    // lw
+
+
+    // store
+    // sb
+    // sh
+    // sw
+
+
     // 读写使能
     wire             mem_ren   = ld;
     wire             mem_wen   = st;

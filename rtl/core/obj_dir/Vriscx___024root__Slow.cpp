@@ -45,6 +45,14 @@ void Vriscx___024root___settle__TOP__3(Vriscx___024root* vlSelf) {
     Vriscx__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vriscx___024root___settle__TOP__3\n"); );
     // Body
+    vlSelf->riscx__DOT__wb_rd_idx = (((- (IData)((IData)(vlSelf->riscx__DOT__mem_wb_u__DOT__ex_rd_en_dff__DOT__qout_r))) 
+                                      & (IData)(vlSelf->riscx__DOT__mem_wb_u__DOT__ex_rd_idx_dff__DOT__qout_r)) 
+                                     | ((- (IData)((IData)(vlSelf->riscx__DOT__mem_wb_u__DOT__mem_rd_en_dff__DOT__qout_r))) 
+                                        & (IData)(vlSelf->riscx__DOT__mem_wb_u__DOT__mem_rd_idx_dff__DOT__qout_r)));
+    vlSelf->riscx__DOT__wb_rd_wdata = (((- (IData)((IData)(vlSelf->riscx__DOT__mem_wb_u__DOT__ex_rd_en_dff__DOT__qout_r))) 
+                                        & vlSelf->riscx__DOT__mem_wb_u__DOT__ex_rd_wdata_dff__DOT__qout_r) 
+                                       | ((- (IData)((IData)(vlSelf->riscx__DOT__mem_wb_u__DOT__mem_rd_en_dff__DOT__qout_r))) 
+                                          & vlSelf->riscx__DOT__mem_wb_u__DOT__mem_rd_wdata_dff__DOT__qout_r));
     vlSelf->riscx__DOT__mem_rd_wdata = ((3U == (0x7fU 
                                                 & vlSelf->riscx__DOT__ex_mem_u__DOT__instr_dff__DOT__qout_r))
                                          ? ((vlSelf->riscx__DOT__mem_u__DOT__memory
@@ -454,8 +462,8 @@ void Vriscx___024root___settle__TOP__3(Vriscx___024root* vlSelf) {
                                          ? 0U : (((0x1fU 
                                                    & (vlSelf->riscx__DOT__if_id_u__DOT__instr_dff__DOT__qout_r 
                                                       >> 0xfU)) 
-                                                  == (IData)(vlSelf->riscx__DOT__regfile_u__DOT__rd_idx_i))
-                                                  ? vlSelf->riscx__DOT__regfile_u__DOT__rd_wdata_i
+                                                  == (IData)(vlSelf->riscx__DOT__wb_rd_idx))
+                                                  ? vlSelf->riscx__DOT__wb_rd_wdata
                                                   : 
                                                  ((0x1eU 
                                                    >= 
@@ -756,8 +764,9 @@ void Vriscx___024root___ctor_var_reset(Vriscx___024root* vlSelf) {
     vlSelf->riscx__DOT__ex_pipe_flush = VL_RAND_RESET_I(1);
     vlSelf->riscx__DOT__ex_alu_res = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__ex_rd_en = VL_RAND_RESET_I(1);
-    vlSelf->riscx__DOT__ex_mem_rs2_rdata = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__mem_rd_wdata = VL_RAND_RESET_I(32);
+    vlSelf->riscx__DOT__wb_rd_idx = VL_RAND_RESET_I(5);
+    vlSelf->riscx__DOT__wb_rd_wdata = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__pc_reg_u__DOT__pc_dff__DOT__qout_r = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__if_u__DOT__dec_bjp = VL_RAND_RESET_I(1);
     vlSelf->riscx__DOT__if_u__DOT__dec_bjp_imm = VL_RAND_RESET_I(32);
@@ -769,9 +778,6 @@ void Vriscx___024root___ctor_var_reset(Vriscx___024root* vlSelf) {
     }
     vlSelf->riscx__DOT__if_id_u__DOT__pc_dff__DOT__qout_r = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__if_id_u__DOT__instr_dff__DOT__qout_r = VL_RAND_RESET_I(32);
-    vlSelf->riscx__DOT__regfile_u__DOT__rd_en_i = VL_RAND_RESET_I(1);
-    vlSelf->riscx__DOT__regfile_u__DOT__rd_idx_i = VL_RAND_RESET_I(5);
-    vlSelf->riscx__DOT__regfile_u__DOT__rd_wdata_i = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__regfile_u__DOT__rs1_x1_rdata_o = VL_RAND_RESET_I(32);
     for (int __Vi0=0; __Vi0<31; ++__Vi0) {
         vlSelf->riscx__DOT__regfile_u__DOT__reg_data[__Vi0] = VL_RAND_RESET_I(32);
@@ -798,6 +804,7 @@ void Vriscx___024root___ctor_var_reset(Vriscx___024root* vlSelf) {
     vlSelf->riscx__DOT__ex_u__DOT__branch_res = VL_RAND_RESET_I(1);
     vlSelf->riscx__DOT__ex_mem_u__DOT__pc_dff__DOT__qout_r = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__ex_mem_u__DOT__instr_dff__DOT__qout_r = VL_RAND_RESET_I(32);
+    vlSelf->riscx__DOT__ex_mem_u__DOT__rs2_rdata_dff__DOT__qout_r = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__ex_mem_u__DOT__alu_res_dff__DOT__qout_r = VL_RAND_RESET_I(32);
     vlSelf->riscx__DOT__ex_mem_u__DOT__ex_rd_idx_dff__DOT__qout_r = VL_RAND_RESET_I(5);
     vlSelf->riscx__DOT__ex_mem_u__DOT__ex_rd_en_dff__DOT__qout_r = VL_RAND_RESET_I(1);
@@ -806,6 +813,13 @@ void Vriscx___024root___ctor_var_reset(Vriscx___024root* vlSelf) {
         vlSelf->riscx__DOT__mem_u__DOT__memory[__Vi0] = VL_RAND_RESET_I(8);
     }
     vlSelf->riscx__DOT__mem_u__DOT__i = VL_RAND_RESET_I(32);
+    vlSelf->riscx__DOT__mem_wb_u__DOT__pc_dff__DOT__qout_r = VL_RAND_RESET_I(32);
+    vlSelf->riscx__DOT__mem_wb_u__DOT__ex_rd_idx_dff__DOT__qout_r = VL_RAND_RESET_I(5);
+    vlSelf->riscx__DOT__mem_wb_u__DOT__ex_rd_en_dff__DOT__qout_r = VL_RAND_RESET_I(1);
+    vlSelf->riscx__DOT__mem_wb_u__DOT__ex_rd_wdata_dff__DOT__qout_r = VL_RAND_RESET_I(32);
+    vlSelf->riscx__DOT__mem_wb_u__DOT__mem_rd_idx_dff__DOT__qout_r = VL_RAND_RESET_I(5);
+    vlSelf->riscx__DOT__mem_wb_u__DOT__mem_rd_en_dff__DOT__qout_r = VL_RAND_RESET_I(1);
+    vlSelf->riscx__DOT__mem_wb_u__DOT__mem_rd_wdata_dff__DOT__qout_r = VL_RAND_RESET_I(32);
     for (int __Vi0=0; __Vi0<2; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = VL_RAND_RESET_I(1);
     }
