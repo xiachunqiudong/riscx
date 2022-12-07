@@ -29,12 +29,14 @@ module decode(
 
     // from MEM 前递
     // 1. MEM_ex_rd_wdata 
-    input [`REG_IDX_WIDTH-1:0] ex_mem_ex_rd_idx_i,
-    input                      ex_mem_ex_rd_en_i,
-    input [`XLEN-1:0]          ex_mem_ex_rd_wdata_i,
+    input [`REG_IDX_WIDTH-1:0]      ex_mem_ex_rd_idx_i,
+    input                           ex_mem_ex_rd_en_i,
+    input [`XLEN-1:0]               ex_mem_ex_rd_wdata_i,
 
     // 2. MEM_mem_rd_wdata
-    
+    input [`REG_IDX_WIDTH-1:0]      mem_rd_idx_i,
+    input                           mem_rd_en_i,
+    input [`XLEN-1:0]               mem_rd_wdata_i,
     // to ID_EX
     output     [`PC_WIDTH-1:0]      dec_pc_o,
     output     [`INSTR_WIDTH-1:0]   dec_instr_o,
@@ -66,19 +68,21 @@ module decode(
     // ex阶段写rd & 译码阶段读rs1 & rs1 != x0 & rs1 == rd
     wire rs1_ex_fwd     = ((ex_rd_en_i        & dec_rs1_en_o & rs1_not_x0) & (dec_rs1_idx_o == ex_rd_idx_i));
     wire rs1_mem_ex_fwd = ((ex_mem_ex_rd_en_i & dec_rs1_en_o & rs1_not_x0) & (dec_rs1_idx_o == ex_mem_ex_rd_idx_i));
-    wire rs1_mem_fwd;
+    wire rs1_mem_fwd    = ((mem_rd_en_i       & dec_rs1_en_o & rs1_not_x0) & (dec_rs1_idx_o == mem_rd_idx_i));
 
     assign dec_rs1_rdata_o = rs1_ex_fwd     ? ex_rd_wdata_i 
                            : rs1_mem_ex_fwd ? ex_mem_ex_rd_wdata_i
+                           : rs1_mem_fwd    ? mem_rd_wdata_i
                            : rs1_rdata_i;
     
     // ex阶段写rd & 译码阶段读rs2 & rs2 != x0 & rs2 == rd
     wire rs2_ex_fwd     = ((ex_rd_en_i        & dec_rs2_en_o & rs2_not_x0) & (dec_rs2_idx_o == ex_rd_idx_i));
     wire rs2_mem_ex_fwd = ((ex_mem_ex_rd_en_i & dec_rs2_en_o & rs2_not_x0) & (dec_rs2_idx_o == ex_mem_ex_rd_idx_i));
-    wire rs2_mem_fwd;
+    wire rs2_mem_fwd    = ((mem_rd_en_i       & dec_rs2_en_o & rs2_not_x0) & (dec_rs2_idx_o == mem_rd_idx_i));
 
     assign dec_rs2_rdata_o = rs2_ex_fwd     ? ex_rd_wdata_i
                            : rs2_mem_ex_fwd ? ex_mem_ex_rd_wdata_i
+                           : rs2_mem_fwd    ? mem_rd_wdata_i
                            : rs2_rdata_i;
     
 

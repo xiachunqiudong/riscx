@@ -68,10 +68,17 @@ module riscx(
     // from ex_mem
     wire [`PC_WIDTH-1:0]      ex_mem_pc;
     wire [`INSTR_WIDTH-1:0]   ex_mem_instr;
+    wire [`XLEN-1:0]          ex_mem_rs2_rdata;
     wire [`XLEN-1:0]          ex_mem_alu_res;
     wire [`REG_IDX_WIDTH-1:0] ex_mem_ex_rd_idx;
     wire                      ex_mem_ex_rd_en;
     wire [`XLEN-1:0]          ex_mem_ex_rd_wdata;
+
+    // from mem
+
+    wire [`REG_IDX_WIDTH-1:0] mem_rd_idx;
+    wire                      mem_rd_en;
+    wire [`XLEN-1:0]          mem_rd_wdata;
 
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
@@ -134,15 +141,19 @@ module riscx(
         .rs1_rdata_i     (rf_rs1_rdata),
         .rs2_rdata_i     (rf_rs1_rdata),
 
-        // forward from ex
+        // ex_rd_wdata forward from ex
         .ex_rd_idx_i     (ex_rd_idx),
         .ex_rd_en_i      (ex_rd_en),
         .ex_rd_wdata_i   (ex_rd_wdata),
 
-        // forword from mem
-        .ex_mem_ex_rd_idx_i(ex_mem_ex_rd_idx),
-        .ex_mem_ex_rd_en_i(ex_mem_ex_rd_en),
-        .ex_mem_ex_rd_wdata_i(ex_mem_ex_rd_wdata),
+        // ex_rd_wdata forword from mem
+        .ex_mem_ex_rd_idx_i   (ex_mem_ex_rd_idx),
+        .ex_mem_ex_rd_en_i    (ex_mem_ex_rd_en),
+        .ex_mem_ex_rd_wdata_i (ex_mem_ex_rd_wdata),
+        // mem_rd_wdata forword from mem
+        .mem_rd_idx_i         (mem_rd_idx),
+        .mem_rd_en_i          (mem_rd_en),
+        .mem_rd_wdata_i       (mem_rd_wdata),
 
         // ID_EX
         .dec_pc_o        (dec_pc),
@@ -245,6 +256,7 @@ module riscx(
 
         .ex_pc_i(id_ex_pc),
         .ex_instr_i(id_ex_instr),
+        .ex_rs2_rdata_i(id_ex_rs2_rdata),
 
         .ex_alu_res_i(ex_alu_res),
         .ex_rd_idx_i(ex_rd_idx),
@@ -253,10 +265,24 @@ module riscx(
 
         .ex_mem_pc_o(ex_mem_pc),
         .ex_mem_instr_o(ex_mem_instr),
+        .ex_mem_rs2_rdata_o(ex_mem_rs2_rdata),
         .ex_mem_alu_res_o(ex_mem_alu_res),
         .ex_mem_ex_rd_idx_o(ex_mem_ex_rd_idx),
         .ex_mem_ex_rd_en_o(ex_mem_ex_rd_en),
         .ex_mem_ex_rd_wdata_o(ex_mem_ex_rd_wdata)
+    );
+
+    mem mem_u(
+        .clk(clk),
+        .rst_n(rst_n),
+        
+        .ex_mem_instr_i(ex_mem_instr),
+        .ex_mem_rs2_rdata_i(ex_mem_rs2_rdata),
+        .ex_mem_alu_res_i(ex_mem_alu_res),
+
+        .mem_rd_idx_o(mem_rd_idx),
+        .mem_rd_en_o(mem_rd_en),
+        .mem_rd_wdata_o(mem_rd_wdata)
     );
 
 

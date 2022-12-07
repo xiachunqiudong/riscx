@@ -7,6 +7,7 @@ module ex_mem(
     // from id_ex
     input  [`PC_WIDTH-1:0]      ex_pc_i,
     input  [`INSTR_WIDTH-1:0]   ex_instr_i,
+    input  [`XLEN-1:0]          ex_rs2_rdata_i,
     // from ex
     input  [`XLEN-1:0]          ex_alu_res_i,
     input  [`REG_IDX_WIDTH-1:0] ex_rd_idx_i,
@@ -16,6 +17,7 @@ module ex_mem(
     // to mem
     output [`PC_WIDTH-1:0]      ex_mem_pc_o,
     output [`INSTR_WIDTH-1:0]   ex_mem_instr_o,
+    output [`XLEN-1:0]          ex_mem_rs2_rdata_o,
 
     output [`XLEN-1:0]          ex_mem_alu_res_o,
     // forward to id

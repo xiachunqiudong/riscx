@@ -48,6 +48,8 @@ module ex(
     wire ali   = (opcode == `INSTR_ALI);
     wire ld_st = (opcode == `INSTR_LD | opcode == `INSTR_ST);
     wire bxx   = (opcode == `INSTR_BXX);
+    wire jal   = (opcode == `INSTR_JAL);
+    wire jalr  = (opcode == `INSTR_JALR);
     wire lui   = (opcode == `INSTR_LUI);
     wire auipc = (opcode == `INSTR_AUIPC);
     
@@ -84,21 +86,25 @@ module ex(
     wire op_sltu = (al_ali  & fun_sltu);
 
     // al:    res = rs1 op rs2
-    // bxx:   res = rs1 -  rs2
     // ali:   res = rs1 op imm
+    // bxx:   res = rs1 -  rs2
     // ld/st: res = rs1 +  imm
     // lui:   res = 0   +  imm
     // auipc: res = pc  +  imm
+    // jal:   res = pc  +  4  
+    // jalr:  res = pc  +  4  
 
     // 操作数计算
     wire [`XLEN-1:0] alu_op1;
     wire [`XLEN-1:0] alu_op2;
     
-    assign alu_op1 = lui ? `XLEN'b0 
-                   : auipc ? pc_i
+    assign alu_op1 = lui                  ? `XLEN'b0 
+                   : (auipc | jal | jalr) ? pc_i
                    : rs1_rdata_i;
     
-    assign alu_op2 = (al | bxx) ? rs2_rdata_i : imm_i;
+    assign alu_op2 = (al | bxx)   ? rs2_rdata_i
+                   : (jal | jalr) ? `XLEN'd4
+                   : imm_i;
 
     // ALU
     // 加法
