@@ -442,10 +442,14 @@ void Vriscx___024root___settle__TOP__3(Vriscx___024root* vlSelf) {
                                            + vlSelf->riscx__DOT__pc_reg_u__DOT__pc_dff__DOT__qout_r))] 
                                         << 8U) | vlSelf->riscx__DOT__if_u__DOT__fetch_if2icb_u__DOT__instr_mem
                                        [(0x3ffU & vlSelf->riscx__DOT__pc_reg_u__DOT__pc_dff__DOT__qout_r)])));
-    vlSelf->riscx__DOT__ex_rd_en = (((IData)(vlSelf->riscx__DOT__ex_u__DOT__al_ali) 
-                                     | (0x37U == (0x7fU 
+    vlSelf->riscx__DOT__ex_rd_en = (((((IData)(vlSelf->riscx__DOT__ex_u__DOT__al_ali) 
+                                       | (0x37U == 
+                                          (0x7fU & vlSelf->riscx__DOT__id_ex_u__DOT__instr_dff__DOT__qout_r))) 
+                                      | (0x17U == (0x7fU 
+                                                   & vlSelf->riscx__DOT__id_ex_u__DOT__instr_dff__DOT__qout_r))) 
+                                     | (0x6fU == (0x7fU 
                                                   & vlSelf->riscx__DOT__id_ex_u__DOT__instr_dff__DOT__qout_r))) 
-                                    | (0x17U == (0x7fU 
+                                    | (0x67U == (0x7fU 
                                                  & vlSelf->riscx__DOT__id_ex_u__DOT__instr_dff__DOT__qout_r)));
     vlSelf->riscx__DOT__ex_u__DOT__sub_res = ((IData)(1U) 
                                               + (vlSelf->riscx__DOT__ex_u__DOT__alu_op1 
