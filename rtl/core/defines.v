@@ -33,6 +33,7 @@
 `define INSTR_AUIPC  7'b00_101_11
 
 `define INSTR_CSR    7'b11_100_11
+`define INSTR_SYSTEM 7'b11_100_11
 
 // BRANCH
 `define BEQ  3'b000

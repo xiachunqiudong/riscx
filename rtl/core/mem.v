@@ -13,7 +13,14 @@ module mem(
     
     output [`REG_IDX_WIDTH-1:0] mem_rd_idx_o,
     output                      mem_rd_en_o,
-    output [`XLEN-1:0]          mem_rd_wdata_o
+    output [`XLEN-1:0]          mem_rd_wdata_o,
+
+    // 异常
+    output                      mem_excp_ld_misalign_o,
+    output                      mem_excp_ld_bus_err_o,
+    output                      mem_excp_st_amo_misalign_o,
+    output                      mem_excp_st_amo_bus_err_o,
+    output                      mem_excp_bad_addr_o
 );
 
     wire [6:0] opcode       = ex_mem_instr_i[6:0];
@@ -40,7 +47,9 @@ module mem(
     // 读写使能
     wire             mem_ren   = ld;
     wire             mem_wen   = st;
+    // 访存地址
     wire [`XLEN-1:0] mem_addr  = ex_mem_alu_res_i;
+    // 访存写数据
     wire [`XLEN-1:0] mem_wdata = ex_mem_rs2_rdata_i;
 
     reg [7:0] memory [0:1023];

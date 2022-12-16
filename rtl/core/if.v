@@ -10,15 +10,18 @@
 
 `include "defines.v"
 
-module instr_fetch(
-    // PC REG
+module if(
+    // from PC REG
     input  [`PC_WIDTH-1:0]    pc_i,
+    // ot PC REG
     output [`PC_WIDTH-1:0]    if_pc_next_o,
 
-    // IF_ID
+    // to IF_ID
     output                    if_prdt_taken_o,
     output [`INSTR_WIDTH-1:0] if_instr_o,
-    output [`PC_WIDTH-1:0]    if_pc_o
+    output [`PC_WIDTH-1:0]    if_pc_o,
+    output                    if_excp_misalign_o,
+    output                    if_excp_bus_err_o
 );
 
     assign if_pc_o    = pc_i;
@@ -35,7 +38,8 @@ module instr_fetch(
     // RESP CHANNEL
     wire                     if_resp_valid;
     wire                     if_resp_ready;
-    wire                     if_resp_err;
+    wire                     if_resp_misalign;
+    wire                     if_resp_bus_err;
     wire  [`INSTR_WIDTH-1:0] if_resp_instr;
 
     assign if_req_valid  = 1;
@@ -83,51 +87,36 @@ module instr_fetch(
 
     // 1. jal and jalr 直接跳转
     // 2. bxx 向后预测为跳转
-    wire prdt_taken = ((dec_jal | dec_jalr) | (dec_bxx & dec_bjp_imm[31]));
+    wire   prdt_taken = ((dec_jal | dec_jalr) | (dec_bxx & dec_bjp_imm[31]));
     assign if_prdt_taken_o = prdt_taken;
    
-   // X0直接返回0
-   // X1用于函数调用返回 需要特殊优化
+    // X0直接返回0
+    // X1用于函数调用返回 需要特殊优化
     wire jalr_rs1_x0 = (dec_jalr_rs1_idx == `REG_X0);
     wire jalr_rs1_x1 = (dec_jalr_rs1_idx == `REG_X1);
+    // jalr rs1中的值
+    wire [`XLEN-1:0] jalr_rs1_rdata;
+    // TODO
+    // 如果rs1与后续指令存在数据相关性 需要暂停流水线
+    assign jalr_rs1_rdata = jalr_rs1_x0 ? `XLEN'b0
+                          : jalr_rs1_x1 ? `XLEN'b0
+                          : `XLEN'b0;
 
-    reg [`XLEN-1:0] prdt_pc_add_op1;
+    wire [`XLEN-1:0] prdt_pc_add_op1;
+    wire [`XLEN-1:0] prdt_pc_add_op2;
     
-    always @(*) begin
-        if(dec_jalr) begin // jalr
-            if(jalr_rs1_x0) 
-                prdt_pc_add_op1 = `XLEN'd0;
-            else if(jalr_rs1_x1)
-                prdt_pc_add_op1 = `XLEN'd4;
-            else
-                prdt_pc_add_op1 = `XLEN'd4;
-        end else begin // jal && bxx
-            prdt_pc_add_op1 = pc_i;
-        end
-    end
-    
-    wire [`XLEN-1:0] prdt_pc_add_op2 = dec_bjp_imm;
+    assign prdt_pc_add_op1 = dec_jalr ? jalr_rs1_rdata : pc_i;
+    assign prdt_pc_add_op2 = dec_bjp_imm;
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
 //  PC生成 产生下一周期的PC
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
     
-    reg [`PC_WIDTH-1:0] pc_add_op1;
-    reg [`PC_WIDTH-1:0] pc_add_op2;
+    wire [`PC_WIDTH-1:0] pc_next_add_op1;
+    wire [`PC_WIDTH-1:0] pc_next_add_op2;
     
-    always @(*) begin
-        if(dec_bjp & prdt_taken) // 预测跳转
-            pc_add_op1 = prdt_pc_add_op1;
-        else
-            pc_add_op1 = pc_i;
-    end
-
-    always @(*) begin
-        if(dec_bjp & prdt_taken) // 预测跳转
-            pc_add_op2 = prdt_pc_add_op2;
-        else
-            pc_add_op2 = `PC_WIDTH'd4;
-    end
+    assign pc_next_add_op1 = (dec_bjp & prdt_taken) ? prdt_pc_add_op1 : pc_i;
+    assign pc_next_add_op2 = (dec_bjp & prdt_taken) ? prdt_pc_add_op2 : `PC_WIDTH'd4;
 
     // 下一条PC
     assign if_pc_next_o = pc_add_op1 + pc_add_op2;

@@ -8,18 +8,24 @@ module fetch_if2icb(
     // IF RESP CHANNEL
     output                    if_resp_valid_o,    
     input                     if_resp_ready_i,
-    output                    if_resp_err_o,
+    output                    if_resp_misalign_o,
+    output                    if_resp_bus_err_o,
     output [`INSTR_WIDTH-1:0] if_resp_instr_o
 );
 
     assign if_req_ready_o  = 1'b1;
     assign if_resp_valid_o = 1'b1;
-    assign if_resp_err_o   = 1'b0;
+
+    // 取指异常
+    // 所有指令都为4字节对齐 最低2位一定为0
+    assign if_resp_misalign_o = (if_req_pc_i[1:0] == 2'b00); 
+    assign if_resp_bus_err_o  = 1'b0;
 
     assign if_resp_instr_o = instr;
 
     reg [`INSTR_WIDTH-1:0] instr;
 
+    // 模拟指令存储
     reg [`BYTE_WIDTH-1:0] instr_mem [0:1023];
 
     wire [`PC_WIDTH-1:0] pc = if_req_pc_i;

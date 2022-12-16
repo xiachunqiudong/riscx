@@ -28,7 +28,6 @@ module ex(
     output [`XLEN-1:0]          ex_rd_wdata_o // 写回rd
 );
 
-
     wire [6:0] opcode = instr_i[6:0];
     wire [4:0] rd     = instr_i[11:7];
     wire [2:0] fun3   = instr_i[14:12];
