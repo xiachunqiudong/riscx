@@ -1,8 +1,0 @@
-{
-    "commentTranslate.targetLanguage": "en",
-    "files.associations": {
-        "*.tcc": "cpp",
-        "fstream": "cpp",
-        "new": "cpp"
-    }
-}
