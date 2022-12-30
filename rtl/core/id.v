@@ -195,13 +195,13 @@ module id(
     // 5. fence/fence_i
     wire rv32_need_rs1 = (~rv32_lui) & (~rv32_auipc) & (~jal)
                        & (~csrrwi)   & (~csrrsi)     & (~csrrci)
-                       & (~ecall)    & (~ebreak)
+                       & (~ecall)    & (~ebreak);
 
     // RV32I需要rs2的有
     // 1. rv32_op
     // 2. branch
     // 3. store
-    wire rv32_need_rs2 = rv32_op & rv32_branch & rv32_store;
+    wire rv32_need_rs2 = rv32_op | rv32_branch | rv32_store;
 
     // RV32I不需要rd的有
     // 1. ecall/ebreak
